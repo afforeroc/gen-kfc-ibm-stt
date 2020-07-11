@@ -1,3 +1,4 @@
 .env
 audios/
 audios_base/
+json_out/

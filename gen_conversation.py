@@ -26,11 +26,10 @@ def extract_conversation(data_json):
     """Construct the conversation linking 'results' and 'speaker_labels'."""
     results = data_json['results']
     speaker_labels = data_json['speaker_labels']
-    speaker_text = ""
     # Only once
-    first_time = results[0]['alternatives'][0]['timestamps'][0][1]
-    speaker_prev = find_speaker(first_time, speaker_labels)
     conversation = []
+    speaker_prev = 0
+    text_speaker = ""
     # For all results
     for r_block in results:
         timestamps = r_block['alternatives'][0]['timestamps']
@@ -38,13 +37,15 @@ def extract_conversation(data_json):
             init_time = t_block[1]
             word = t_block[0]
             speaker_current = find_speaker(init_time, speaker_labels)
+
             if speaker_current == speaker_prev:
-                speaker_text += f"{word} "
+                text_speaker += f'{word} '
             else:
-                conversation.append([speaker_prev, speaker_text])
-                speaker_text = ""
-                speaker_text += f"{word} "
-            speaker_prev = speaker_current
+                conversation.append([speaker_prev, text_speaker])
+                text_speaker = f'{word} '
+                speaker_prev = speaker_current
+    
+    conversation.append([speaker_prev, text_speaker]) # Add the last line of speaker
     return conversation
 
 
