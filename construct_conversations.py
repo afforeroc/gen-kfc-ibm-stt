@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Convert various JSON files in coherent conversations."""
+"""Construct conversations from STT responses of IBM service."""
 
 import os
 import json

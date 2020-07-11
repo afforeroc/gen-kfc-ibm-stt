@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Convert various audio files to text using 'IBM Speech To Text' service."""
+"""Obtain transcripts of various audio files using 'IBM STT' service."""
 
 import os
 import json
@@ -28,15 +28,15 @@ def print_json(data_json):
 def save_json(data_json, audio_file):
     """Save a successful callback on a JSON file."""
     name_file = os.path.splitext(audio_file)[0]
-    json_file_path = f'json/{name_file}.json'
-    with open(json_file_path, 'w', encoding='utf-8') as json_file:
+    json_pathfile = f'json/{name_file}.json'
+    with open(json_pathfile, 'w', encoding='utf-8') as json_file:
         json.dump(data_json, json_file, indent=2, ensure_ascii=False)
-    print(f"'{json_file_path}' was saved sucessful")
+    print(f"'{json_pathfile}' was saved sucessful")
 
 
-def sst_response(audio_path, speech_to_text):
+def sst_response(audio_pathfile, speech_to_text):
     """Return callback response of SST using one audiofile."""
-    with open((audio_path), 'rb') as audio_file:
+    with open((audio_pathfile), 'rb') as audio_file:
         response = speech_to_text.recognize(audio=audio_file,
                                             content_type='audio/mp3',
                                             model='es-CO_NarrowbandModel',
@@ -53,9 +53,9 @@ def main():
 
     audios_folder = "audios"
     for audio_file in os.listdir(audios_folder):
-        audio_file_path = os.path.join(audios_folder, audio_file)
-        if os.path.isfile(audio_file_path):
-            data_json = sst_response(audio_file_path, speech_to_text)
+        audio_pathfile = os.path.join(audios_folder, audio_file)
+        if os.path.isfile(audio_pathfile):
+            data_json = sst_response(audio_pathfile, speech_to_text)
             save_json(data_json, audio_file)
 
 
