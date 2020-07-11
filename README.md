@@ -48,5 +48,5 @@ $ python3 _construct_conversations.py
 3.3 Enjoy ;)
 
 ## References links
-* [IBM Cloud API Docs: Python SDK for SST](https://cloud.ibm.com/apidocs/speech-to-text?code=python)
-* [IBM Watson APIs: Python SDK of SST](https://github.com/watson-developer-cloud/python-sdk/blob/master/examples/speech_to_text_v1.py)
+* [IBM Cloud API Docs: Python SDK of IBM Watson™ STT](https://cloud.ibm.com/apidocs/speech-to-text?code=python)
+* [IBM Watson APIs: Python SDK of IBM Watson™ STT](https://github.com/watson-developer-cloud/python-sdk/blob/master/examples/speech_to_text_v1.py)
