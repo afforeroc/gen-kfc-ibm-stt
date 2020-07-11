@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Convert a series of audio files to text using IBM Speech To Text service."""
+"""Convert various audio files to text using 'IBM Speech To Text' service."""
 
 import os
 import json
@@ -10,7 +10,7 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 
 def load_env():
-    """ Load auth elements for SST service."""
+    """Load authentication settings for SST service."""
     dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
     load_dotenv(dotenv_path)
     api_key = os.getenv('API_KEY')
@@ -18,18 +18,19 @@ def load_env():
     return api_key, url_service
 
 
-def print_json(data):
+def print_json(data_json):
     """Print in console a JSON data in beautiful style."""
-    json_data = json.dumps(data, indent=2, ensure_ascii=False).encode('utf8')
+    json_data = json.dumps(data_json, indent=2,
+                           ensure_ascii=False).encode('utf8')
     print(json_data.decode())
 
 
-def save_json(data, audio_file):
+def save_json(data_json, audio_file):
     """Save a successful callback on a JSON file."""
     name_file = os.path.splitext(audio_file)[0]
     json_file_path = f'json/{name_file}.json'
     with open(json_file_path, 'w', encoding='utf-8') as json_file:
-        json.dump(data, json_file, indent=2, ensure_ascii=False)
+        json.dump(data_json, json_file, indent=2, ensure_ascii=False)
     print(f"'{json_file_path}' was saved sucessful")
 
 
@@ -44,7 +45,7 @@ def sst_response(audio_path, speech_to_text):
 
 
 def main():
-    """Make multiple SST callbacks. After, receive and save the SST responses on JSON files."""
+    """Load audios, make transcripts using 'IBM SST' service and after save them in JSON folder."""
     api_key, url_service = load_env()
     authenticator = IAMAuthenticator(api_key)
     speech_to_text = SpeechToTextV1(authenticator=authenticator)
@@ -54,8 +55,8 @@ def main():
     for audio_file in os.listdir(audios_folder):
         audio_file_path = os.path.join(audios_folder, audio_file)
         if os.path.isfile(audio_file_path):
-            data = sst_response(audio_file_path, speech_to_text)
-            save_json(data, audio_file)
+            data_json = sst_response(audio_file_path, speech_to_text)
+            save_json(data_json, audio_file)
 
 
 if __name__ == '__main__':

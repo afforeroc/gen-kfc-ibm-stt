@@ -1,5 +1,0 @@
-"""
-keywords=['alo', 'bancolombia'],
-keywords_threshold=0.8,
-word_alternatives_threshold=0.8
-"""
