@@ -25,10 +25,10 @@ def print_json(data_json):
     print(json_data.decode())
 
 
-def save_json(data_json, audio_file):
+def save_json(data_json, audio_file, transcripts_folder):
     """Save a successful callback on a JSON file."""
     name_file = os.path.splitext(audio_file)[0]
-    json_pathfile = f'json/{name_file}.json'
+    json_pathfile = f'{transcripts_folder}/{name_file}.json'
     with open(json_pathfile, 'w', encoding='utf-8') as json_file:
         json.dump(data_json, json_file, indent=2, ensure_ascii=False)
     print(f"'{json_pathfile}' was saved sucessful")
@@ -52,11 +52,12 @@ def main():
     speech_to_text.set_service_url(url_service)
 
     audios_folder = "audios"
+    transcripts_folder = "transcripts"
     for audio_file in os.listdir(audios_folder):
         audio_pathfile = os.path.join(audios_folder, audio_file)
         if os.path.isfile(audio_pathfile):
             data_json = sst_response(audio_pathfile, speech_to_text)
-            save_json(data_json, audio_file)
+            save_json(data_json, audio_file, transcripts_folder)
 
 
 if __name__ == '__main__':

@@ -51,10 +51,10 @@ def extract_conversation(data_json):
     return conversation
 
 
-def save_conversation(conversation, json_file):
+def save_conversation(conversation, json_file, conversations_folder):
     """Save conversation in '*.txt' file."""
     name_file = os.path.splitext(json_file)[0]
-    conversation_pathfile = f'conversations/{name_file}.txt'
+    conversation_pathfile = f'{conversations_folder}/{name_file}.txt'
     conversation_file = open(conversation_pathfile, 'w+')
     for line in conversation:
         conversation_file.write('speaker ' + str(line[0]) + ': ' + line[1] +
@@ -64,13 +64,14 @@ def save_conversation(conversation, json_file):
 
 def main():
     """Load JSON files, construct the dialogue and after save them in 'conversations' folder."""
-    json_folder = "json"
-    for json_file in os.listdir(json_folder):
-        json_pathfile = os.path.join(json_folder, json_file)
+    transcripts_folder = "transcripts"
+    conversations_folder = "conversations"
+    for json_file in os.listdir(transcripts_folder):
+        json_pathfile = os.path.join(transcripts_folder, json_file)
         if os.path.isfile(json_pathfile):
             data_json = load_json(json_pathfile)
             conversation = extract_conversation(data_json)
-            save_conversation(conversation, json_file)
+            save_conversation(conversation, json_file, conversations_folder)
 
 
 if __name__ == '__main__':
