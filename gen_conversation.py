@@ -20,6 +20,7 @@ def find_speaker(init_time, speaker_labels):
     for sp_block in speaker_labels:
         if sp_block['from'] == init_time:
             return sp_block['speaker']
+    return -1
 
 
 def extract_conversation(data_json):
@@ -44,8 +45,9 @@ def extract_conversation(data_json):
                 conversation.append([speaker_prev, text_speaker])
                 text_speaker = f'{word} '
                 speaker_prev = speaker_current
-    
-    conversation.append([speaker_prev, text_speaker]) # Add the last line of speaker
+
+    conversation.append([speaker_prev,
+                         text_speaker])  # Add the last line of speaker
     return conversation
 
 
@@ -55,7 +57,8 @@ def save_conversation(conversation, json_file):
     conversation_pathfile = f'conversations/{name_file}.txt'
     conversation_file = open(conversation_pathfile, 'w+')
     for line in conversation:
-        conversation_file.write('speaker ' + str(line[0]) + ': ' + line[1] + '\n')
+        conversation_file.write('speaker ' + str(line[0]) + ': ' + line[1] +
+                                '\n')
     conversation_file.close()
 
 
