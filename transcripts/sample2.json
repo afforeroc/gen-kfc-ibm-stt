@@ -50,7 +50,8 @@
             ]
           ]
         }
-      ]
+      ],
+      "keywords_result": {}
     },
     {
       "final": true,
@@ -721,7 +722,41 @@
             ]
           ]
         }
-      ]
+      ],
+      "keywords_result": {
+        " 24000": [
+          {
+            "start_time": 30.76,
+            "end_time": 31.55,
+            "confidence": 0.865,
+            "normalized_text": "veinticuatro mil"
+          }
+        ],
+        " 'emergencia'": [
+          {
+            "start_time": 9.6,
+            "end_time": 10.08,
+            "confidence": 0.76,
+            "normalized_text": "emergencia"
+          }
+        ],
+        " 'iva incluido'": [
+          {
+            "start_time": 32.15,
+            "end_time": 32.81,
+            "confidence": 1.0,
+            "normalized_text": "iva incluido"
+          }
+        ],
+        " 'veinticuatro mil'": [
+          {
+            "start_time": 30.76,
+            "end_time": 31.55,
+            "confidence": 0.865,
+            "normalized_text": "veinticuatro mil"
+          }
+        ]
+      }
     },
     {
       "final": true,
@@ -897,7 +932,31 @@
             ]
           ]
         }
-      ]
+      ],
+      "keywords_result": {
+        " 'emergencia'": [
+          {
+            "start_time": 55.26,
+            "end_time": 55.72,
+            "confidence": 0.96,
+            "normalized_text": "emergencia"
+          }
+        ],
+        " 'recuerde '": [
+          {
+            "start_time": 46.29,
+            "end_time": 46.74,
+            "confidence": 0.9,
+            "normalized_text": "recuerde"
+          },
+          {
+            "start_time": 49.48,
+            "end_time": 49.93,
+            "confidence": 0.99,
+            "normalized_text": "recuerde"
+          }
+        ]
+      }
     },
     {
       "final": true,
@@ -923,7 +982,8 @@
             ]
           ]
         }
-      ]
+      ],
+      "keywords_result": {}
     }
   ],
   "speaker_labels": [

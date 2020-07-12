@@ -5,6 +5,7 @@
 import os
 import json
 from dotenv import load_dotenv
+import pandas as pd
 from ibm_watson import SpeechToTextV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
@@ -34,12 +35,14 @@ def save_json(data_json, audio_file, transcripts_folder):
     print(f"'{json_pathfile}' was saved sucessful")
 
 
-def sst_response(audio_pathfile, speech_to_text):
+def sst_response(audio_pathfile, speech_to_text, keywords_list):
     """Return callback response of SST using one audiofile."""
     with open((audio_pathfile), 'rb') as audio_file:
         response = speech_to_text.recognize(audio=audio_file,
                                             content_type='audio/mp3',
                                             model='es-CO_NarrowbandModel',
+                                            keywords=keywords_list,
+                                            keywords_threshold=0.5,
                                             speaker_labels=True).get_result()
     return response
 
@@ -51,12 +54,15 @@ def main():
     speech_to_text = SpeechToTextV1(authenticator=authenticator)
     speech_to_text.set_service_url(url_service)
 
+    data_frame = pd.read_excel('keywords.xls')
+    keyword_list = str(data_frame.iloc[:, 0].values.tolist())
+
     audios_folder = "audios"
     transcripts_folder = "transcripts"
     for audio_file in os.listdir(audios_folder):
         audio_pathfile = os.path.join(audios_folder, audio_file)
         if os.path.isfile(audio_pathfile):
-            data_json = sst_response(audio_pathfile, speech_to_text)
+            data_json = sst_response(audio_pathfile, speech_to_text, keyword_list)
             save_json(data_json, audio_file, transcripts_folder)
 
 

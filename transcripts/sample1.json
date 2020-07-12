@@ -15,7 +15,8 @@
             ]
           ]
         }
-      ]
+      ],
+      "keywords_result": {}
     },
     {
       "final": true,
@@ -66,7 +67,18 @@
             ]
           ]
         }
-      ]
+      ],
+      "keywords_result": {
+
+        " 'buenas tardes'": [
+          {
+            "start_time": 11.52,
+            "end_time": 12.17,
+            "confidence": 1.0,
+            "normalized_text": "buenas tardes"
+          }
+        ]
+      }
     },
     {
       "final": true,
@@ -632,7 +644,55 @@
             ]
           ]
         }
-      ]
+      ],
+      "keywords_result": {
+        " 'alianza'": [
+          {
+            "start_time": 21.25,
+            "end_time": 21.61,
+            "confidence": 0.96,
+            "normalized_text": "alianza"
+          }
+        ],
+        " 'bancolombia'": [
+          {
+            "start_time": 20.32,
+            "end_time": 21.07,
+            "confidence": 0.98,
+            "normalized_text": "bancolombia"
+          },
+          {
+            "start_time": 32.61,
+            "end_time": 33.22,
+            "confidence": 0.97,
+            "normalized_text": "bancolombia"
+          }
+        ],
+        " 'como está'": [
+          {
+            "start_time": 17.25,
+            "end_time": 17.63,
+            "confidence": 0.71,
+            "normalized_text": "como está"
+          }
+        ],
+        " 'consanguinidad'": [
+          {
+            "start_time": 48.9,
+            "end_time": 49.72,
+            "confidence": 0.84,
+            "normalized_text": "consanguinidad"
+          }
+        ],
+        " 'emergencias'": [
+          {
+            "start_time": 43.68,
+            "end_time": 44.22,
+            "confidence": 0.76,
+            "normalized_text": "emergencias"
+          }
+        ]
+      }
     },
     {
       "final": true,
@@ -708,7 +768,8 @@
             ]
           ]
         }
-      ]
+      ],
+      "keywords_result": {}
     }
   ],
   "speaker_labels": [

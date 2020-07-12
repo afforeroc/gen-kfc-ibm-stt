@@ -21,10 +21,13 @@ $ sudo apt install python3-pip
 $ pip3 --version
 ```
 
-1.3 Install IBM Watson library for Python 3.
+1.3 Install necessary Python libraries.
 ```
 $ pip3 install --upgrade "ibm-watson>=4.5.0"
+$ pip3 install pandas xlrd
+$ pip3 install python-dotenv
 ```
+
 ## 2. Configure the enviroment
 2.1 Create an instance of [IBM Speech to text](https://www.ibm.com/cloud/watson-speech-to-text) service.
 
@@ -42,7 +45,7 @@ $ python3 obtain_transcripts.py
 
 3.2 Run the second app to generate conversations from transcripts files. The conversations will be store in `conversations/` folder. The generated files will have the same name of source audio files with `*.json` extension.
 ```
-$ python3 _construct_conversations.py
+$ python3 construct_conversations.py
 ```
 
 3.3 Enjoy ;)
