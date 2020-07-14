@@ -5,6 +5,8 @@
 import os
 import json
 from dotenv import load_dotenv
+import re
+import unicodedata
 import pandas as pd
 from ibm_watson import SpeechToTextV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
@@ -17,6 +19,34 @@ def load_env():
     api_key = os.getenv('API_KEY')
     url_service = os.getenv('URL_SERVICE')
     return api_key, url_service
+
+def strip_accents(text):
+    """Quit accent of vowels."""
+    try:
+        text = unicode(text, 'utf-8')
+    except NameError:  # unicode is a default on python 3
+        pass
+    text = unicodedata.normalize('NFD', text).encode('ascii',
+                                                     'ignore').decode("utf-8")
+    return str(text)
+
+
+def extract_keywords(excel_pathfile, columns):
+    """Extract all keywords in lowercase, without: accents, special characters, extra spaces."""
+    data_frame = pd.read_excel(excel_pathfile)
+    keyword_list = []
+    for i in range(columns):
+        keyword_list += data_frame.iloc[:, i].dropna().values.tolist()
+    keywords_set = set()
+    for i, keyword in enumerate(keyword_list):
+        keyword = str(keyword)
+        if keyword != '':
+            keyword = keyword.lower().replace('ñ', 'yn')
+            keyword = strip_accents(keyword)
+            keyword = re.sub(r"[^a-zA-Z0-9]+", ' ', keyword).strip()
+            keyword = keyword.lower().replace('yn', 'ñ')
+            keywords_set.add(keyword)
+    return list(keywords_set)
 
 
 def print_json(data_json):
@@ -54,15 +84,15 @@ def main():
     speech_to_text = SpeechToTextV1(authenticator=authenticator)
     speech_to_text.set_service_url(url_service)
 
-    data_frame = pd.read_excel('keywords.xls')
-    keyword_list = str(data_frame.iloc[:, 0].values.tolist())
+    keywords_list = extract_keywords('keywords_revised.xlsx', 1)
+    print(keywords_list)
 
     audios_folder = "audios"
     transcripts_folder = "transcripts"
     for audio_file in os.listdir(audios_folder):
         audio_pathfile = os.path.join(audios_folder, audio_file)
         if os.path.isfile(audio_pathfile):
-            data_json = sst_response(audio_pathfile, speech_to_text, keyword_list)
+            data_json = sst_response(audio_pathfile, speech_to_text, keywords_list)
             save_json(data_json, audio_file, transcripts_folder)
 
 

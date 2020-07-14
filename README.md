@@ -23,9 +23,13 @@ $ pip3 --version
 
 1.3 Install necessary Python libraries.
 ```
-$ pip3 install --upgrade "ibm-watson>=4.5.0"
-$ pip3 install pandas xlrd
 $ pip3 install python-dotenv
+```
+```
+$ pip3 install pandas xlrd
+```
+```
+$ pip3 install --upgrade "ibm-watson>=4.5.0"
 ```
 
 ## 2. Configure the enviroment

@@ -1,4 +1,8 @@
+*.csv
+*.xls
+*.xlsx
 .env
 audios/
 audios_base/
-json_out/
+*.json
+*.txt
