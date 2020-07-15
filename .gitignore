@@ -3,5 +3,5 @@
 *.xlsx
 .env
 audios_real/
-audios_test/
+audios_x/
 keywords/
