@@ -2,7 +2,6 @@
 *.xls
 *.xlsx
 .env
-audios/
-audios_base/
-*.json
-*.txt
+audios_real/
+audios_test/
+keywords/
