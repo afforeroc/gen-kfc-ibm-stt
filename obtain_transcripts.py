@@ -4,21 +4,24 @@
 
 import os
 import json
-from dotenv import load_dotenv
+import random
+import time
 import re
 import unicodedata
+from dotenv import load_dotenv
 import pandas as pd
 from ibm_watson import SpeechToTextV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 
-def load_env():
+def load_env(env_file):
     """Load authentication settings for SST service."""
-    dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+    dotenv_path = os.path.join(os.path.dirname(__file__), env_file)
     load_dotenv(dotenv_path)
     api_key = os.getenv('API_KEY')
-    url_service = os.getenv('URL_SERVICE')
+    url_service = os.getenv('API_URL')
     return api_key, url_service
+
 
 def strip_accents(text):
     """Quit accent of vowels."""
@@ -52,7 +55,7 @@ def extract_keywords(excel_pathfile, columns):
 def print_json(data_json):
     """Print in console a JSON data in beautiful style."""
     json_data = json.dumps(data_json, indent=2,
-                           ensure_ascii=False).encode('utf8')
+                           ensure_ascii=False).encode('utf32')
     print(json_data.decode())
 
 
@@ -77,22 +80,70 @@ def sst_response(audio_pathfile, speech_to_text, keywords_list):
     return response
 
 
+def obtain_bbytes(keyword_list):
+    """Return the buffer size of 'keyword_list'."""
+    num_nys = 0
+    num_char = 0
+    num_keywords = len(keyword_list)
+    for kword in keyword_list:
+        nys_kword = kword.count('ñ')
+        char_kword = 0
+        if len(kword) > nys_kword:
+            char_kword = len(kword) - nys_kword
+        num_char += char_kword
+        num_nys += nys_kword
+    return (6 * num_nys + num_char) + (3 * num_keywords + 110)
+
+
+def check_sizes(keyword_list):
+    """Check if size of some keyword is more than 1024."""
+    for kword in keyword_list:
+        if len(kword) > 1024:
+            return False
+    return True
+
+
+def gen_keyword_list(char, size_kword, num_kwords):
+    """Debug function: return a test keywords list."""
+    keywords_list = []
+    for _ in range(num_kwords):
+        kword = char * size_kword
+        keywords_list.append(kword)
+    return keywords_list
+
+
 def main():
     """Load audios, make transcripts using 'IBM SST' service and after save them in JSON folder."""
-    api_key, url_service = load_env()
+    api_key, url_service = load_env('.env')
     authenticator = IAMAuthenticator(api_key)
     speech_to_text = SpeechToTextV1(authenticator=authenticator)
     speech_to_text.set_service_url(url_service)
 
-    keywords_list = extract_keywords('keywords_revised.xlsx', 1)
-    print(keywords_list)
+    #keywords_list = extract_keywords('keywords_revised.xlsx', 4)
+    #print(f'Size of keywords_list: {len(keywords_list)}')
 
-    audios_folder = "audios"
+    #keywords_list = random.sample(keywords_list, 380)
+    keywords_list = gen_keyword_list('ñ', 680, 2)
+    print(f'Size of keywords_list: {len(keywords_list)}')
+
+    if not check_sizes(keywords_list):
+        print("The size of some kword is mayor than 1024.")
+
+    buffer_bytes = obtain_bbytes(keywords_list)
+    print(f'Buffer of bytes: {buffer_bytes}')
+    time.sleep(2)
+
+    if buffer_bytes >= 8190:
+        print(f'Error: Buffer of bytes is {buffer_bytes} >= 8190 max.')
+        time.sleep(60)
+
+    audios_folder = "audios_test"
     transcripts_folder = "transcripts"
     for audio_file in os.listdir(audios_folder):
         audio_pathfile = os.path.join(audios_folder, audio_file)
         if os.path.isfile(audio_pathfile):
-            data_json = sst_response(audio_pathfile, speech_to_text, keywords_list)
+            data_json = sst_response(audio_pathfile, speech_to_text,
+                                     keywords_list)
             save_json(data_json, audio_file, transcripts_folder)
 
 

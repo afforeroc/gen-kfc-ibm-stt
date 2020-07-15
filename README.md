@@ -13,7 +13,7 @@ $ sudo apt install python3
 $ python3 --version
 ```
 
-1.2 Install pip and verify their version.
+1.2 Install pip3 and verify their version.
 ```
 $ sudo apt install python3-pip
 ```
@@ -35,7 +35,7 @@ $ pip3 install --upgrade "ibm-watson>=4.5.0"
 ## 2. Configure the enviroment
 2.1 Create an instance of [IBM Speech to text](https://www.ibm.com/cloud/watson-speech-to-text) service.
 
-2.2 Obtain the `api_key` and `url_service` of IBM STT service and put them on `new.env` file.
+2.2 Obtain the `API_KEY` and `API_URL` of IBM STT service and put them on `new.env` file.
 After rename `new.env` file to `.env` file.
 
 2.4 Please put all audio files in `audios/` folder.
