@@ -11,7 +11,24 @@ import unicodedata
 from dotenv import load_dotenv
 import pandas as pd
 from ibm_watson import SpeechToTextV1
+from ibm_watson.websocket import RecognizeCallback, AudioSource
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+
+class MyRecognizeCallback(RecognizeCallback):
+    def __init__(self):
+        RecognizeCallback.__init__(self)
+
+    def on_data(self, data):
+        #print(json.dumps(data, indent=2))
+        with open('transcripts/full_sample_ws.json', 'w', encoding='utf-8') as json_file:
+            json.dump(data, json_file, indent=2, ensure_ascii=False)
+        print(f"'transcripts/full_sample_ws.json' was saved sucessful")
+
+    def on_error(self, error):
+        print('Error received: {}'.format(error))
+
+    def on_inactivity_timeout(self, error):
+        print('Inactivity timeout: {}'.format(error))
 
 
 def load_env(env_file):
@@ -70,14 +87,16 @@ def save_json(data_json, audio_file, transcripts_folder):
 
 def sst_response(audio_pathfile, speech_to_text, keywords_list):
     """Return callback response of SST using one audiofile."""
+    myRecognizeCallback = MyRecognizeCallback()
     with open((audio_pathfile), 'rb') as audio_file:
-        response = speech_to_text.recognize(audio=audio_file,
-                                            content_type='audio/mp3',
-                                            model='es-CO_NarrowbandModel',
-                                            keywords=keywords_list,
-                                            keywords_threshold=0.5,
-                                            speaker_labels=True).get_result()
-    return response
+        audio_source = AudioSource(audio_file)
+        speech_to_text.recognize_using_websocket(audio=audio_source,
+                                        content_type='audio/mp3',
+                                        recognize_callback=myRecognizeCallback,
+                                        model='es-CO_NarrowbandModel',
+                                        keywords=keywords_list,
+                                        keywords_threshold=0.5,
+                                        speaker_labels=True)
 
 
 def obtain_bbytes(keyword_list):
@@ -111,9 +130,8 @@ def gen_keyword_list(char, size_kword, num_kwords):
         keywords_list.append(kword)
     return keywords_list
 
-
 def save_keywords(keywords_list):
-    with open('keyword_list1.txt', 'w') as f:
+    with open('keyword_list2.txt', 'w') as f:
         for item in keywords_list:
             f.write("%s\n" % item)
 
@@ -129,10 +147,10 @@ def main():
     print(f'Size of keywords_list: {len(keywords_list)}')
 
     # Debug assingments
-    #keywords_list = random.sample(keywords_list, 370)
-    #keywords_list = gen_keyword_list('a', 1024, 8)
+    #keywords_list = random.sample(keywords_list, 380)
+    #keywords_list = gen_keyword_list('a', 40, 1000)
     keywords_list.sort()
-    keywords_list = keywords_list[0:379]
+    #keywords_list = keywords_list[0:379]
     save_keywords(keywords_list)
 
     print(f'Size of keywords_list: {len(keywords_list)}')
@@ -149,13 +167,12 @@ def main():
         #time.sleep(60)
 
     audios_folder = "audios_test"
-    transcripts_folder = "transcripts"
+    #transcripts_folder = "transcripts"
     for audio_file in os.listdir(audios_folder):
         audio_pathfile = os.path.join(audios_folder, audio_file)
         if os.path.isfile(audio_pathfile):
-            data_json = sst_response(audio_pathfile, speech_to_text,
-                                     keywords_list)
-            save_json(data_json, audio_file, transcripts_folder)
+            sst_response(audio_pathfile, speech_to_text, keywords_list)
+            #save_json(data_json, audio_file, transcripts_folder)
 
 
 if __name__ == '__main__':

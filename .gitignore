@@ -1,7 +1,10 @@
-*.csv
-*.xls
-*.xlsx
-.env
-audios_real/
-audios_test/
+# Folders
 keywords/
+audios/real/
+audios/test/
+transcripts/test/
+keywords/
+
+# Files
+.env
+keywords.xlsx
