@@ -29,8 +29,8 @@ def instantiate_stt(api_key, url_service):
 def extract_keywords(excel_pathfile, header):
     """Extract 'keywords' from excel file and return it as a list."""
     data_frame = pd.read_excel(excel_pathfile, header=header)
-    keyword_list = data_frame.iloc[:, 0].values.tolist()
-    return keyword_list
+    keyword = data_frame.iloc[:, 0].values.tolist()
+    return keyword
 
 
 def print_json(data_json):
