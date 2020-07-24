@@ -20,9 +20,9 @@ class MyRecognizeCallback(RecognizeCallback):
 
     def on_data(self, data):
         #print(json.dumps(data, indent=2))
-        with open('transcripts/full_sample_ws.json', 'w', encoding='utf-8') as json_file:
+        with open('transcripts/sample.json', 'w', encoding='utf-8') as json_file:
             json.dump(data, json_file, indent=2, ensure_ascii=False)
-        print(f"'transcripts/full_sample_ws.json' was saved sucessful")
+        print(f"'transcripts/sample.json' was saved sucessful")
 
     def on_error(self, error):
         print('Error received: {}'.format(error))
@@ -146,30 +146,11 @@ def main():
     keywords_list = extract_keywords('keywords.xlsx', 4)
     print(f'Size of keywords_list: {len(keywords_list)}')
 
-    # Debug assingments
-    #keywords_list = random.sample(keywords_list, 380)
-    #keywords_list = gen_keyword_list('a', 40, 1000)
-    keywords_list.sort()
-    #keywords_list = keywords_list[0:379]
-    save_keywords(keywords_list)
-
-    print(f'Size of keywords_list: {len(keywords_list)}')
-
-    if not check_sizes(keywords_list):
-        print("The size of some kword is mayor than 1024.")
-
-    buffer_bytes = obtain_bbytes(keywords_list)
-    print(f'Buffer of bytes: {buffer_bytes}')
-    #time.sleep(2)
-
-    if buffer_bytes >= 8190:
-        print(f'Error: Buffer of bytes is {buffer_bytes} >= 8190 max.')
-        #time.sleep(60)
-
-    audios_folder = "audios_test"
+    audios_folder = "audios"
     #transcripts_folder = "transcripts"
     for audio_file in os.listdir(audios_folder):
         audio_pathfile = os.path.join(audios_folder, audio_file)
+        print(audio_pathfile)
         if os.path.isfile(audio_pathfile):
             sst_response(audio_pathfile, speech_to_text, keywords_list)
             #save_json(data_json, audio_file, transcripts_folder)
