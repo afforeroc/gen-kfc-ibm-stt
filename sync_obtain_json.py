@@ -20,6 +20,7 @@ def load_env(env_file):
 
 
 def instantiate_stt(api_key, url_service):
+    """Link a SDK instance with a IBM STT instance."""
     authenticator = IAMAuthenticator(api_key)
     speech_to_text = SpeechToTextV1(authenticator=authenticator)
     speech_to_text.set_service_url(url_service)

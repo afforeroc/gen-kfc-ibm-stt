@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Construct conversations from STT responses of IBM service."""
 
@@ -64,7 +64,7 @@ def save_conversation(conversation, json_file, conversations_folder):
 
 def main():
     """Load JSON files, construct the dialogue and after save them in 'conversations' folder."""
-    transcripts_folder = "transcripts"
+    transcripts_folder = "json"
     conversations_folder = "conversations"
     for json_file in os.listdir(transcripts_folder):
         json_pathfile = os.path.join(transcripts_folder, json_file)

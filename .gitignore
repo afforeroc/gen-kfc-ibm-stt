@@ -1,10 +1,1 @@
-# Folders
-keywords/
-audios/real/
-audios/test/
-transcripts/test/
-keywords/
-
-# Files
 .env
-keywords.xlsx

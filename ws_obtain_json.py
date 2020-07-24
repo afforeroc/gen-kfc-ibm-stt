@@ -1,20 +1,18 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Obtain transcripts of various audio files using 'IBM STT' service."""
 
 import os
 import json
-import random
-import time
-import re
-import unicodedata
 from dotenv import load_dotenv
 import pandas as pd
 from ibm_watson import SpeechToTextV1
 from ibm_watson.websocket import RecognizeCallback, AudioSource
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
+
 class MyRecognizeCallback(RecognizeCallback):
+    """Class provided by IBM."""
     def __init__(self):
         RecognizeCallback.__init__(self)
 
@@ -22,7 +20,7 @@ class MyRecognizeCallback(RecognizeCallback):
         #print(json.dumps(data, indent=2))
         with open('json/ws_sample.json', 'w', encoding='utf-8') as json_file:
             json.dump(data, json_file, indent=2, ensure_ascii=False)
-        print(f"'json/ws_sample.json' was saved sucessful")
+        print("'json/ws_sample.json' was saved sucessful")
 
     def on_error(self, error):
         print('Error received: {}'.format(error))
@@ -41,6 +39,7 @@ def load_env(env_file):
 
 
 def instantiate_stt(api_key, url_service):
+    """Link a SDK instance with a IBM STT instance."""
     authenticator = IAMAuthenticator(api_key)
     speech_to_text = SpeechToTextV1(authenticator=authenticator)
     speech_to_text.set_service_url(url_service)
@@ -72,16 +71,17 @@ def save_json(data_json, audio_file, transcripts_folder):
 
 def sst_response(audio_pathfile, speech_to_text, keywords):
     """Return callback response of SST using one audiofile."""
-    myRecognizeCallback = MyRecognizeCallback()
+    my_recognize_callback = MyRecognizeCallback()
     with open((audio_pathfile), 'rb') as audio_file:
         audio_source = AudioSource(audio_file)
-        speech_to_text.recognize_using_websocket(audio=audio_source,
-                                        content_type='audio/mp3',
-                                        recognize_callback=myRecognizeCallback,
-                                        model='es-CO_NarrowbandModel',
-                                        keywords=keywords,
-                                        keywords_threshold=0.5,
-                                        speaker_labels=True)
+        speech_to_text.recognize_using_websocket(
+            audio=audio_source,
+            content_type='audio/mp3',
+            recognize_callback=my_recognize_callback,
+            model='es-CO_NarrowbandModel',
+            keywords=keywords,
+            keywords_threshold=0.5,
+            speaker_labels=True)
 
 
 def main():
