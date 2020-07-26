@@ -23,7 +23,7 @@
       "alternatives": [
         {
           "transcript": "buenas tardes por favor señor david andrés garcía ",
-          "confidence": 0.99,
+          "confidence": 0.93,
           "timestamps": [
             [
               "buenas",
@@ -83,8 +83,8 @@
       "final": true,
       "alternatives": [
         {
-          "transcript": "con el señor david como está la tarde de hoy habla paula parra su asesora de bancolombia en alianza con jesse como miley muy bien bien sí muy bien de preguntas en este momento señor davis pues en nosotros queremos dar la bienvenida por nuevamente confiar en el banco bancolombia perniciosos entidad financiera cuerdo hace dos días se comunicaron con ustedes porque precisamente como bienvenida se está entregando la oportunidad empezar a manejar su servicio domiciliario por emergencias desde la comuna de su casa tanto para usted como para toda su familia en primero segundo gran compañías quería saber si había revisado la página qué duda tiene para poder acciones servicios ",
-          "confidence": 0.82,
+          "transcript": "con el señor david como está la tarde de hoy habla paula parra su asesora de bancolombia en alianza con IGS cómo me le ha ido muy bien bien sí muy bien de preguntas en este momento señor davis pues en nosotros queremos dar la bienvenida por nuevamente confiar en el banco un bancolombia perniciosos entidad financiera acuerdo hace dos días se comunicaron con ustedes porque precisamente como bienvenida celeste entregando la oportunidad empesar a manejar su servicio domiciliario por emergencias desde la comuna de su casa tanto para usted como para toda su familia en primero segundo gran compañías quería saber si había revisado la página qué duda tiene para poder acciones servicios ",
+          "confidence": 0.83,
           "timestamps": [
             [
               "con",
@@ -184,26 +184,41 @@
             [
               "con",
               21.61,
-              21.81
+              21.78
             ],
             [
-              "jesse",
-              21.81,
+              "IGS",
+              21.78,
               22.4
             ],
             [
-              "como",
+              "cómo",
               23.02,
               23.25
             ],
             [
-              "miley",
+              "me",
               23.25,
-              23.57
+              23.35
+            ],
+            [
+              "le",
+              23.35,
+              23.43
+            ],
+            [
+              "ha",
+              23.43,
+              23.48
+            ],
+            [
+              "ido",
+              23.48,
+              23.62
             ],
             [
               "muy",
-              23.6,
+              23.62,
               23.73
             ],
             [
@@ -314,11 +329,11 @@
             [
               "confiar",
               31.84,
-              32.13
+              32.14
             ],
             [
               "en",
-              32.13,
+              32.14,
               32.24
             ],
             [
@@ -332,8 +347,13 @@
               32.59
             ],
             [
+              "un",
+              32.59,
+              32.68
+            ],
+            [
               "bancolombia",
-              32.62,
+              32.68,
               33.23
             ],
             [
@@ -349,16 +369,16 @@
             [
               "financiera",
               34.26,
-              34.96
+              34.89
             ],
             [
-              "cuerdo",
-              34.99,
+              "acuerdo",
+              34.89,
               35.38
             ],
             [
               "hace",
-              35.82,
+              35.87,
               36.06
             ],
             [
@@ -412,18 +432,13 @@
               39.65
             ],
             [
-              "se",
+              "celeste",
               39.65,
-              39.81
-            ],
-            [
-              "está",
-              39.81,
-              39.96
+              39.95
             ],
             [
               "entregando",
-              39.96,
+              39.95,
               40.51
             ],
             [
@@ -437,13 +452,13 @@
               41.07
             ],
             [
-              "empezar",
+              "empesar",
               41.07,
-              41.38
+              41.39
             ],
             [
               "a",
-              41.38,
+              41.39,
               41.43
             ],
             [
@@ -649,19 +664,27 @@
           {
             "start_time": 21.25,
             "end_time": 21.61,
-            "confidence": 0.97,
+            "confidence": 0.95,
             "normalized_text": "alianza"
+          }
+        ],
+        "alianza con igs": [
+          {
+            "start_time": 21.25,
+            "end_time": 22.4,
+            "confidence": 0.941,
+            "normalized_text": "alianza con IGS"
           }
         ],
         "bancolombia": [
           {
             "start_time": 20.32,
             "end_time": 21.07,
-            "confidence": 0.98,
+            "confidence": 0.93,
             "normalized_text": "bancolombia"
           },
           {
-            "start_time": 32.61,
+            "start_time": 32.68,
             "end_time": 33.22,
             "confidence": 0.96,
             "normalized_text": "bancolombia"
@@ -671,7 +694,7 @@
           {
             "start_time": 17.25,
             "end_time": 17.63,
-            "confidence": 0.71,
+            "confidence": 0.66,
             "normalized_text": "como está"
           }
         ],
@@ -679,8 +702,16 @@
           {
             "start_time": 43.68,
             "end_time": 44.22,
-            "confidence": 0.81,
+            "confidence": 0.8,
             "normalized_text": "emergencias"
+          }
+        ],
+        "igs": [
+          {
+            "start_time": 21.78,
+            "end_time": 22.4,
+            "confidence": 0.99,
+            "normalized_text": "IGS"
           }
         ]
       }
@@ -689,8 +720,8 @@
       "final": true,
       "alternatives": [
         {
-          "transcript": "no la verdad es que no me interesa mucho en entender y en este momento estoy ocupado más bien con las cosas de la oficina ",
-          "confidence": 0.83,
+          "transcript": "no la verdad es que no me interesa mucho en entender y en este momento estoy ocupado más bien con los con los de la oficina ",
+          "confidence": 0.88,
           "timestamps": [
             [
               "no",
@@ -790,21 +821,26 @@
             [
               "con",
               62.13,
-              62.31
+              62.3
             ],
             [
-              "las",
-              62.31,
+              "los",
+              62.3,
               62.59
             ],
             [
-              "cosas",
+              "con",
               62.62,
-              62.9
+              62.78
+            ],
+            [
+              "los",
+              62.78,
+              62.91
             ],
             [
               "de",
-              62.9,
+              62.91,
               62.98
             ],
             [
@@ -826,8 +862,8 @@
       "final": true,
       "alternatives": [
         {
-          "transcript": "johnny por qué me dice que no le interesa mucho estamos sólo de proteger sus vidas estamos hablando de evitar a toda costa de que tenga una emergencia de anguera un e p s una cita las persigo seis horas expones una enfermera un virus con somos ahora le puse puede cubrir a su hermanos si tiene hijos por supuesto esposa padres cuñados suegros vivos o no en la ciudad de rionegro señor davis algo que quiero que se tome en cuenta por favor es que precisamente como bienvenidas usted solamente por cuanto los veinticuatro mil pesos con iva incluido tarifa congeladas al momento de ser alguno de los servicios mencionados entre otros su no pagan cuota moderadora nico pago usando un promontorio cubertura es muy buen beneficio por skinner equivoqué toda su familia ",
-          "confidence": 0.85,
+          "transcript": "johnny por qué me dice que no le interesa mucho estamos sólo de proteger sus vidas estamos hablando de evitar a toda costa de que tenga una emergencia de anguera un e p s una cita las persigo seis horas es con es una enfermera un virus con somos ahora le puse puede cubrir a su hermanos si tiene hijos por supuesto esposa padres cuñados suegros vivos o no en la ciudad de rionegro señor davis algo que quiero que se tome en cuenta por favor es que precisamente como bienvenidas usted solamente por cuanto los veinticuatro mil pesos con iva incluido tarifa congeladas al momento de ser alguno los servicios mencionados entre otros su no pagan cuota moderadora nico pago usando un promontorio cubertura es muy buen beneficio considere que porque toda su familia ",
+          "confidence": 0.84,
           "timestamps": [
             [
               "johnny",
@@ -1030,8 +1066,18 @@
               74.65
             ],
             [
-              "expones",
+              "es",
               74.65,
+              74.77
+            ],
+            [
+              "con",
+              74.77,
+              74.92
+            ],
+            [
+              "es",
+              74.92,
               75.04
             ],
             [
@@ -1362,16 +1408,11 @@
             [
               "alguno",
               96.54,
-              96.85
-            ],
-            [
-              "de",
-              96.85,
-              96.91
+              96.9
             ],
             [
               "los",
-              96.91,
+              96.9,
               97.0
             ],
             [
@@ -1467,21 +1508,21 @@
             [
               "beneficio",
               104.37,
-              104.81
+              104.82
             ],
             [
-              "por",
-              104.81,
-              105.03
+              "considere",
+              104.82,
+              105.46
             ],
             [
-              "skinner",
-              105.03,
-              105.4
+              "que",
+              105.46,
+              105.6
             ],
             [
-              "equivoqué",
-              105.4,
+              "porque",
+              105.6,
               105.85
             ],
             [
@@ -1507,7 +1548,7 @@
           {
             "start_time": 92.1,
             "end_time": 92.89,
-            "confidence": 0.738,
+            "confidence": 0.748,
             "normalized_text": "veinticuatro mil"
           }
         ],
@@ -1523,7 +1564,7 @@
           {
             "start_time": 92.1,
             "end_time": 92.89,
-            "confidence": 0.738,
+            "confidence": 0.748,
             "normalized_text": "veinticuatro mil"
           }
         ],
@@ -1531,7 +1572,7 @@
           {
             "start_time": 75.69,
             "end_time": 76.47,
-            "confidence": 0.96,
+            "confidence": 0.99,
             "normalized_text": "virus"
           }
         ]
@@ -1541,8 +1582,8 @@
       "final": true,
       "alternatives": [
         {
-          "transcript": "recuerde que tiene laboratorios en casa recuerde que tiene eres una ambulancia médica lisa apara trasladó nivel nacional para cualquier tipo de enfermos por qué tipo de emergencia tanto para su comparación familias ",
-          "confidence": 0.86,
+          "transcript": "recuerde que tiene laboratorios en casas recuerde que tiene eres una ambulancia mexicali sea para trasladó nivel nacional para cualquier tipo de enfermos por qué tipo de emergencia tanto para su comparación familias ",
+          "confidence": 0.87,
           "timestamps": [
             [
               "recuerde",
@@ -1570,9 +1611,9 @@
               109.78
             ],
             [
-              "casa",
+              "casas",
               109.78,
-              110.28
+              110.41
             ],
             [
               "recuerde",
@@ -1605,18 +1646,18 @@
               112.41
             ],
             [
-              "médica",
+              "mexicali",
               112.41,
-              112.72
+              112.82
             ],
             [
-              "lisa",
-              112.72,
-              112.99
+              "sea",
+              112.82,
+              113.1
             ],
             [
-              "apara",
-              112.99,
+              "para",
+              113.1,
               113.32
             ],
             [
@@ -1719,7 +1760,7 @@
       "alternatives": [
         {
           "transcript": "terapias físicas de ",
-          "confidence": 0.87,
+          "confidence": 0.89,
           "timestamps": [
             [
               "terapias",
@@ -1810,14 +1851,14 @@
       "from": 15.06,
       "to": 15.34,
       "speaker": 0,
-      "confidence": 0.6,
+      "confidence": 0.61,
       "final": false
     },
     {
       "from": 15.34,
       "to": 15.7,
       "speaker": 0,
-      "confidence": 0.6,
+      "confidence": 0.61,
       "final": false
     },
     {
@@ -1929,70 +1970,91 @@
       "from": 21.1,
       "to": 21.25,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.5,
       "final": false
     },
     {
       "from": 21.25,
       "to": 21.61,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.5,
       "final": false
     },
     {
       "from": 21.61,
-      "to": 21.81,
+      "to": 21.78,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.5,
       "final": false
     },
     {
-      "from": 21.81,
+      "from": 21.78,
       "to": 22.4,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.5,
       "final": false
     },
     {
       "from": 23.02,
       "to": 23.25,
-      "speaker": 1,
-      "confidence": 0.36,
+      "speaker": 0,
+      "confidence": 0.57,
       "final": false
     },
     {
       "from": 23.25,
-      "to": 23.57,
-      "speaker": 1,
-      "confidence": 0.36,
+      "to": 23.35,
+      "speaker": 0,
+      "confidence": 0.57,
       "final": false
     },
     {
-      "from": 23.6,
+      "from": 23.35,
+      "to": 23.43,
+      "speaker": 0,
+      "confidence": 0.57,
+      "final": false
+    },
+    {
+      "from": 23.43,
+      "to": 23.48,
+      "speaker": 0,
+      "confidence": 0.57,
+      "final": false
+    },
+    {
+      "from": 23.48,
+      "to": 23.62,
+      "speaker": 0,
+      "confidence": 0.57,
+      "final": false
+    },
+    {
+      "from": 23.62,
       "to": 23.73,
       "speaker": 0,
-      "confidence": 0.63,
+      "confidence": 0.57,
       "final": false
     },
     {
       "from": 23.73,
       "to": 24.1,
       "speaker": 0,
-      "confidence": 0.63,
+      "confidence": 0.57,
       "final": false
     },
     {
       "from": 24.38,
       "to": 24.84,
       "speaker": 0,
-      "confidence": 0.63,
+      "confidence": 0.61,
       "final": false
     },
     {
       "from": 24.87,
       "to": 25.19,
       "speaker": 0,
-      "confidence": 0.56,
+      "confidence": 0.55,
       "final": false
     },
     {
@@ -2027,42 +2089,42 @@
       "from": 27.83,
       "to": 27.99,
       "speaker": 1,
-      "confidence": 0.48,
+      "confidence": 0.49,
       "final": false
     },
     {
       "from": 27.99,
       "to": 28.13,
       "speaker": 1,
-      "confidence": 0.48,
+      "confidence": 0.49,
       "final": false
     },
     {
       "from": 28.13,
       "to": 28.47,
       "speaker": 1,
-      "confidence": 0.48,
+      "confidence": 0.49,
       "final": false
     },
     {
       "from": 28.47,
       "to": 28.65,
       "speaker": 1,
-      "confidence": 0.48,
+      "confidence": 0.49,
       "final": false
     },
     {
       "from": 28.65,
       "to": 28.96,
       "speaker": 1,
-      "confidence": 0.48,
+      "confidence": 0.49,
       "final": false
     },
     {
       "from": 28.96,
       "to": 29.18,
       "speaker": 1,
-      "confidence": 0.48,
+      "confidence": 0.49,
       "final": false
     },
     {
@@ -2111,210 +2173,210 @@
       "from": 31.21,
       "to": 31.37,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 31.37,
       "to": 31.84,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 31.84,
-      "to": 32.13,
+      "to": 32.14,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.54,
       "final": false
     },
     {
-      "from": 32.13,
+      "from": 32.14,
       "to": 32.24,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 32.24,
       "to": 32.31,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 32.31,
       "to": 32.59,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.54,
       "final": false
     },
     {
-      "from": 32.62,
+      "from": 32.59,
+      "to": 32.68,
+      "speaker": 1,
+      "confidence": 0.54,
+      "final": false
+    },
+    {
+      "from": 32.68,
       "to": 33.23,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 33.23,
       "to": 33.9,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 33.9,
       "to": 34.26,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 34.26,
-      "to": 34.96,
+      "to": 34.89,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.54,
       "final": false
     },
     {
-      "from": 34.99,
+      "from": 34.89,
       "to": 35.38,
       "speaker": 1,
-      "confidence": 0.36,
+      "confidence": 0.54,
       "final": false
     },
     {
-      "from": 35.82,
+      "from": 35.87,
       "to": 36.06,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.5,
       "final": false
     },
     {
       "from": 36.06,
       "to": 36.29,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.5,
       "final": false
     },
     {
       "from": 36.29,
       "to": 36.64,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.5,
       "final": false
     },
     {
       "from": 36.64,
       "to": 36.81,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.5,
       "final": false
     },
     {
       "from": 36.81,
       "to": 37.36,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.5,
       "final": false
     },
     {
       "from": 37.36,
       "to": 37.52,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.5,
       "final": false
     },
     {
       "from": 37.52,
       "to": 38.11,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.5,
       "final": false
     },
     {
       "from": 38.14,
       "to": 38.4,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 38.4,
       "to": 38.9,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 38.9,
       "to": 39.11,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 39.11,
       "to": 39.65,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 39.65,
-      "to": 39.81,
+      "to": 39.95,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.54,
       "final": false
     },
     {
-      "from": 39.81,
-      "to": 39.96,
-      "speaker": 1,
-      "confidence": 0.52,
-      "final": false
-    },
-    {
-      "from": 39.96,
+      "from": 39.95,
       "to": 40.51,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 40.51,
       "to": 40.58,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 40.58,
       "to": 41.07,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 41.07,
-      "to": 41.38,
+      "to": 41.39,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.54,
       "final": false
     },
     {
-      "from": 41.38,
+      "from": 41.39,
       "to": 41.43,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 41.43,
       "to": 41.9,
       "speaker": 1,
-      "confidence": 0.52,
+      "confidence": 0.54,
       "final": false
     },
     {
@@ -2398,91 +2460,91 @@
       "from": 45.88,
       "to": 46.19,
       "speaker": 1,
-      "confidence": 0.49,
+      "confidence": 0.48,
       "final": false
     },
     {
       "from": 46.19,
       "to": 46.38,
       "speaker": 1,
-      "confidence": 0.49,
+      "confidence": 0.48,
       "final": false
     },
     {
       "from": 46.38,
       "to": 46.61,
       "speaker": 1,
-      "confidence": 0.49,
+      "confidence": 0.48,
       "final": false
     },
     {
       "from": 46.61,
       "to": 46.83,
       "speaker": 1,
-      "confidence": 0.49,
+      "confidence": 0.48,
       "final": false
     },
     {
       "from": 46.83,
       "to": 47.04,
       "speaker": 1,
-      "confidence": 0.49,
+      "confidence": 0.48,
       "final": false
     },
     {
       "from": 47.04,
       "to": 47.25,
       "speaker": 1,
-      "confidence": 0.49,
+      "confidence": 0.48,
       "final": false
     },
     {
       "from": 47.25,
       "to": 47.37,
       "speaker": 1,
-      "confidence": 0.49,
+      "confidence": 0.48,
       "final": false
     },
     {
       "from": 47.37,
       "to": 47.8,
       "speaker": 1,
-      "confidence": 0.49,
+      "confidence": 0.48,
       "final": false
     },
     {
       "from": 47.83,
       "to": 47.99,
       "speaker": 1,
-      "confidence": 0.42,
+      "confidence": 0.43,
       "final": false
     },
     {
       "from": 47.99,
       "to": 48.38,
       "speaker": 1,
-      "confidence": 0.42,
+      "confidence": 0.43,
       "final": false
     },
     {
       "from": 48.38,
       "to": 48.72,
       "speaker": 1,
-      "confidence": 0.42,
+      "confidence": 0.43,
       "final": false
     },
     {
       "from": 48.72,
       "to": 48.9,
       "speaker": 1,
-      "confidence": 0.42,
+      "confidence": 0.43,
       "final": false
     },
     {
       "from": 48.9,
       "to": 50.0,
       "speaker": 1,
-      "confidence": 0.42,
+      "confidence": 0.43,
       "final": false
     },
     {
@@ -2657,7 +2719,7 @@
       "from": 58.71,
       "to": 59.14,
       "speaker": 0,
-      "confidence": 0.57,
+      "confidence": 0.56,
       "final": false
     },
     {
@@ -2718,156 +2780,163 @@
     },
     {
       "from": 62.13,
-      "to": 62.31,
+      "to": 62.3,
       "speaker": 0,
-      "confidence": 0.58,
+      "confidence": 0.57,
       "final": false
     },
     {
-      "from": 62.31,
+      "from": 62.3,
       "to": 62.59,
       "speaker": 0,
-      "confidence": 0.58,
+      "confidence": 0.57,
       "final": false
     },
     {
       "from": 62.62,
-      "to": 62.9,
+      "to": 62.78,
       "speaker": 0,
-      "confidence": 0.61,
+      "confidence": 0.6,
       "final": false
     },
     {
-      "from": 62.9,
+      "from": 62.78,
+      "to": 62.91,
+      "speaker": 0,
+      "confidence": 0.6,
+      "final": false
+    },
+    {
+      "from": 62.91,
       "to": 62.98,
       "speaker": 0,
-      "confidence": 0.61,
+      "confidence": 0.6,
       "final": false
     },
     {
       "from": 62.98,
       "to": 63.06,
       "speaker": 0,
-      "confidence": 0.61,
+      "confidence": 0.6,
       "final": false
     },
     {
       "from": 63.06,
       "to": 63.61,
       "speaker": 0,
-      "confidence": 0.61,
+      "confidence": 0.6,
       "final": false
     },
     {
       "from": 64.99,
       "to": 65.24,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 65.24,
       "to": 65.42,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 65.42,
       "to": 65.51,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 65.51,
       "to": 65.6,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 65.6,
       "to": 65.74,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 65.74,
       "to": 65.85,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 65.85,
       "to": 65.96,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 65.96,
       "to": 66.03,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 66.03,
       "to": 66.37,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 66.37,
       "to": 66.69,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 66.69,
       "to": 66.97,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 66.97,
       "to": 67.14,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 67.14,
       "to": 67.29,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 67.29,
       "to": 67.74,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 67.74,
       "to": 67.91,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 67.91,
       "to": 68.62,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
@@ -3000,189 +3069,203 @@
       "from": 72.87,
       "to": 73.17,
       "speaker": 1,
-      "confidence": 0.56,
+      "confidence": 0.57,
       "final": false
     },
     {
       "from": 73.17,
       "to": 73.51,
       "speaker": 1,
-      "confidence": 0.56,
+      "confidence": 0.57,
       "final": false
     },
     {
       "from": 73.51,
       "to": 73.64,
       "speaker": 1,
-      "confidence": 0.56,
+      "confidence": 0.57,
       "final": false
     },
     {
       "from": 73.64,
       "to": 74.1,
       "speaker": 1,
-      "confidence": 0.56,
+      "confidence": 0.57,
       "final": false
     },
     {
       "from": 74.1,
       "to": 74.36,
       "speaker": 1,
-      "confidence": 0.56,
+      "confidence": 0.57,
       "final": false
     },
     {
       "from": 74.36,
       "to": 74.65,
       "speaker": 1,
-      "confidence": 0.56,
+      "confidence": 0.57,
       "final": false
     },
     {
       "from": 74.65,
+      "to": 74.77,
+      "speaker": 1,
+      "confidence": 0.57,
+      "final": false
+    },
+    {
+      "from": 74.77,
+      "to": 74.92,
+      "speaker": 1,
+      "confidence": 0.57,
+      "final": false
+    },
+    {
+      "from": 74.92,
       "to": 75.04,
       "speaker": 1,
-      "confidence": 0.56,
+      "confidence": 0.57,
       "final": false
     },
     {
       "from": 75.04,
       "to": 75.17,
       "speaker": 1,
-      "confidence": 0.56,
+      "confidence": 0.57,
       "final": false
     },
     {
       "from": 75.17,
       "to": 75.56,
       "speaker": 1,
-      "confidence": 0.56,
+      "confidence": 0.57,
       "final": false
     },
     {
       "from": 75.56,
       "to": 75.69,
       "speaker": 1,
-      "confidence": 0.56,
+      "confidence": 0.57,
       "final": false
     },
     {
       "from": 75.69,
       "to": 76.47,
       "speaker": 1,
-      "confidence": 0.56,
+      "confidence": 0.57,
       "final": false
     },
     {
       "from": 76.5,
       "to": 76.72,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 76.72,
       "to": 76.96,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 76.96,
       "to": 77.11,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 77.11,
       "to": 77.23,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 77.23,
       "to": 77.46,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 77.46,
       "to": 77.63,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 77.63,
       "to": 77.95,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 77.95,
       "to": 78.0,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 78.0,
       "to": 78.11,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 78.11,
       "to": 79.0,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 79.03,
       "to": 79.18,
       "speaker": 1,
-      "confidence": 0.54,
+      "confidence": 0.55,
       "final": false
     },
     {
       "from": 79.18,
       "to": 79.5,
       "speaker": 1,
-      "confidence": 0.54,
+      "confidence": 0.55,
       "final": false
     },
     {
       "from": 79.5,
       "to": 79.78,
       "speaker": 1,
-      "confidence": 0.54,
+      "confidence": 0.55,
       "final": false
     },
     {
       "from": 79.78,
       "to": 79.93,
       "speaker": 1,
-      "confidence": 0.54,
+      "confidence": 0.55,
       "final": false
     },
     {
       "from": 79.93,
       "to": 80.35,
       "speaker": 1,
-      "confidence": 0.54,
+      "confidence": 0.55,
       "final": false
     },
     {
       "from": 80.35,
       "to": 81.11,
       "speaker": 1,
-      "confidence": 0.54,
+      "confidence": 0.55,
       "final": false
     },
     {
@@ -3231,49 +3314,49 @@
       "from": 84.26,
       "to": 84.38,
       "speaker": 1,
-      "confidence": 0.45,
+      "confidence": 0.44,
       "final": false
     },
     {
       "from": 84.38,
       "to": 84.47,
       "speaker": 1,
-      "confidence": 0.45,
+      "confidence": 0.44,
       "final": false
     },
     {
       "from": 84.47,
       "to": 84.73,
       "speaker": 1,
-      "confidence": 0.45,
+      "confidence": 0.44,
       "final": false
     },
     {
       "from": 84.73,
       "to": 84.81,
       "speaker": 1,
-      "confidence": 0.45,
+      "confidence": 0.44,
       "final": false
     },
     {
       "from": 84.81,
       "to": 85.29,
       "speaker": 1,
-      "confidence": 0.45,
+      "confidence": 0.44,
       "final": false
     },
     {
       "from": 85.29,
       "to": 85.58,
       "speaker": 1,
-      "confidence": 0.45,
+      "confidence": 0.44,
       "final": false
     },
     {
       "from": 85.58,
       "to": 86.73,
       "speaker": 1,
-      "confidence": 0.45,
+      "confidence": 0.44,
       "final": false
     },
     {
@@ -3350,126 +3433,126 @@
       "from": 89.02,
       "to": 89.18,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.53,
       "final": false
     },
     {
       "from": 89.18,
       "to": 89.3,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.53,
       "final": false
     },
     {
       "from": 89.3,
       "to": 89.8,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.53,
       "final": false
     },
     {
       "from": 89.8,
       "to": 90.02,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.53,
       "final": false
     },
     {
       "from": 90.02,
       "to": 90.7,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.53,
       "final": false
     },
     {
       "from": 90.76,
       "to": 91.13,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 91.13,
       "to": 91.6,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 91.6,
       "to": 91.73,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 91.73,
       "to": 91.97,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 91.97,
       "to": 92.1,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 92.1,
       "to": 92.67,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 92.67,
       "to": 92.89,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 92.89,
       "to": 93.33,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 93.33,
       "to": 93.5,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 93.5,
       "to": 93.66,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 93.66,
       "to": 94.14,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 94.14,
       "to": 94.52,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 94.52,
       "to": 95.2,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
@@ -3502,20 +3585,13 @@
     },
     {
       "from": 96.54,
-      "to": 96.85,
+      "to": 96.9,
       "speaker": 1,
       "confidence": 0.56,
       "final": false
     },
     {
-      "from": 96.85,
-      "to": 96.91,
-      "speaker": 1,
-      "confidence": 0.56,
-      "final": false
-    },
-    {
-      "from": 96.91,
+      "from": 96.9,
       "to": 97.0,
       "speaker": 1,
       "confidence": 0.56,
@@ -3623,119 +3699,119 @@
       "from": 102.29,
       "to": 102.89,
       "speaker": 1,
-      "confidence": 0.46,
+      "confidence": 0.45,
       "final": false
     },
     {
       "from": 103.73,
       "to": 103.9,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 103.9,
       "to": 104.16,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 104.16,
       "to": 104.37,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 104.37,
-      "to": 104.81,
+      "to": 104.82,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
-      "from": 104.81,
-      "to": 105.03,
+      "from": 104.82,
+      "to": 105.46,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
-      "from": 105.03,
-      "to": 105.4,
+      "from": 105.46,
+      "to": 105.6,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
-      "from": 105.4,
+      "from": 105.6,
       "to": 105.85,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 105.85,
       "to": 106.06,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 106.06,
       "to": 106.18,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 106.18,
       "to": 106.65,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.56,
       "final": false
     },
     {
       "from": 107.64,
       "to": 108.08,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 108.08,
       "to": 108.19,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 108.19,
       "to": 108.46,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 108.46,
       "to": 109.56,
       "speaker": 1,
-      "confidence": 0.51,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 109.59,
       "to": 109.78,
       "speaker": 1,
-      "confidence": 0.37,
+      "confidence": 0.38,
       "final": false
     },
     {
       "from": 109.78,
-      "to": 110.28,
+      "to": 110.41,
       "speaker": 1,
-      "confidence": 0.37,
+      "confidence": 0.38,
       "final": false
     },
     {
@@ -3782,20 +3858,20 @@
     },
     {
       "from": 112.41,
-      "to": 112.72,
+      "to": 112.82,
       "speaker": 1,
       "confidence": 0.56,
       "final": false
     },
     {
-      "from": 112.72,
-      "to": 112.99,
+      "from": 112.82,
+      "to": 113.1,
       "speaker": 1,
       "confidence": 0.56,
       "final": false
     },
     {
-      "from": 112.99,
+      "from": 113.1,
       "to": 113.32,
       "speaker": 1,
       "confidence": 0.56,
@@ -3861,91 +3937,91 @@
       "from": 116.12,
       "to": 116.25,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 116.25,
       "to": 116.36,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 116.36,
       "to": 116.54,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 116.54,
       "to": 116.6,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 116.6,
       "to": 117.06,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 117.06,
       "to": 117.31,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 117.31,
       "to": 117.47,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 117.47,
       "to": 117.59,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 117.59,
       "to": 118.05,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 118.05,
       "to": 118.71,
       "speaker": 1,
-      "confidence": 0.55,
+      "confidence": 0.54,
       "final": false
     },
     {
       "from": 119.52,
       "to": 120.0,
       "speaker": 1,
-      "confidence": 0.53,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 120.0,
       "to": 120.48,
       "speaker": 1,
-      "confidence": 0.53,
+      "confidence": 0.52,
       "final": false
     },
     {
       "from": 120.48,
       "to": 120.62,
       "speaker": 1,
-      "confidence": 0.53,
+      "confidence": 0.52,
       "final": true
     }
   ]

@@ -69,7 +69,7 @@ def save_json(data_json, audio_file, transcripts_folder):
     print(f"'{json_pathfile}' was saved sucessful")
 
 
-def sst_response(audio_pathfile, speech_to_text, keywords):
+def sst_response(audio_pathfile, speech_to_text, keywords, custom_id):
     """Return callback response of SST using one audiofile."""
     my_recognize_callback = MyRecognizeCallback()
     with open((audio_pathfile), 'rb') as audio_file:
@@ -79,6 +79,7 @@ def sst_response(audio_pathfile, speech_to_text, keywords):
             content_type='audio/mp3',
             recognize_callback=my_recognize_callback,
             model='es-CO_NarrowbandModel',
+            language_customization_id=custom_id,
             keywords=keywords,
             keywords_threshold=0.5,
             speaker_labels=True)
@@ -88,14 +89,15 @@ def main():
     """Load audios, make transcripts using 'IBM SST' service and after save them in JSON folder."""
     api_key, url_service = load_env('.env')
     speech_to_text = instantiate_stt(api_key, url_service)
-    keywords = extract_keywords("basekeywords_db.xlsx", 0)
-
+    keywords_pathfile = "keywords/basekeywords_db.xlsx"
+    keywords = extract_keywords(keywords_pathfile, 0)
     audios_folder = "audios"
+    custom_id = "7fa5d91f-be33-4903-9c26-8b0bdeb3fb2f"
     for audio_file in os.listdir(audios_folder):
         audio_pathfile = os.path.join(audios_folder, audio_file)
         print(audio_pathfile)
         if os.path.isfile(audio_pathfile):
-            sst_response(audio_pathfile, speech_to_text, keywords)
+            sst_response(audio_pathfile, speech_to_text, keywords, custom_id)
 
 
 if __name__ == '__main__':
