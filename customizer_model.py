@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Customizer models for a IBM Speech To Text instance."""
+"""Customizer models/actions for a IBM Speech To Text instance."""
 
 import os
 import json
@@ -19,147 +19,167 @@ def load_env(env_file):
 
 
 def instantiate_stt(api_key, url_service):
-    """Link a SDK instance with a IBM STT instance."""
+    """Instantiate an IBM Speech To Text API."""
     authenticator = IAMAuthenticator(api_key)
-    speech_to_text = SpeechToTextV1(authenticator=authenticator)
-    speech_to_text.set_service_url(url_service)
-    return speech_to_text
+    stt = SpeechToTextV1(authenticator=authenticator)
+    stt.set_service_url(url_service)
+    return stt
 
 
-def custom_language_model_run(speech_to_text, operation, custom_id=None, base_model_name=None, dialect=None):
-    """Custom language model operations."""
-    if operation == "create model":
-        language_model = speech_to_text.create_language_model(
-        base_model_name, dialect, description=base_model_name).get_result()
+def custom_language_model(stt, action, model_id=None, model=None, lang=None):
+    """Custom language model actions."""
+    if action == "create model":
+        language_model = stt.create_language_model(model, lang).get_result()
         print(json.dumps(language_model, indent=2))
-    elif operation == "list models":
-        language_models = speech_to_text.list_language_models().get_result()
+    elif action == "list models":
+        language_models = stt.list_language_models().get_result()
         print(json.dumps(language_models, indent=2))
-    elif operation == "get model":
-        language_model = speech_to_text.get_language_model(custom_id).get_result()
+    elif action == "get model":
+        language_model = stt.get_language_model(model_id).get_result()
         print(json.dumps(language_model, indent=2))
-    elif operation == "delete model":
-        speech_to_text.delete_language_model(custom_id)
-    elif operation == "train model":
-        speech_to_text.train_language_model(custom_id)
-    elif operation == "reset model":
-        speech_to_text.reset_language_model(custom_id)
-    elif operation == "upgrade model":
-        speech_to_text.upgrade_language_model(custom_id)
+    elif action == "delete model":
+        stt.delete_language_model(model_id)
+    elif action == "train model":
+        stt.train_language_model(model_id)
+    elif action == "reset model":
+        stt.reset_language_model(model_id)
+    elif action == "upgrade model":
+        stt.upgrade_language_model(model_id)
     else:
-        print(f"The '{operation}' operation is not valid.")
+        print(f"'{action}' is not valid as a custom language model action.")
 
 
-def corpora_run(speech_to_text, operation, custom_id, corpus_name=None, corpus_pathfile=None):
-    """Corpora operations of a custom language model."""
-    if operation == "list corpora":
-        corpora = speech_to_text.list_corpora(custom_id).get_result()
+def custom_corpora(stt, action, model_id, corpus=None, corpus_pathfile=None):
+    """Custom corpora actions of a custom language model."""
+    if action == "list corpora":
+        corpora = stt.list_corpora(model_id).get_result()
         print(json.dumps(corpora, indent=2))
-    elif operation == "add corpus":
+    elif action == "add corpus":
         with open(corpus_pathfile, 'rb') as corpus_file:
-            speech_to_text.add_corpus(
-                custom_id,
-                corpus_name,
-                corpus_file,
-                allow_overwrite=True,
-            )
-    elif operation == "get corpus":
-        corpus = speech_to_text.get_corpus(custom_id, corpus_name).get_result()
+            stt.add_corpus(model_id, corpus, corpus_file, allow_overwrite=True)
+    elif action == "get corpus":
+        corpus = stt.get_corpus(model_id, corpus).get_result()
         print(json.dumps(corpus, indent=2))
-    elif operation == "delete corpus":
-        speech_to_text.delete_corpus(custom_id, corpus_name)
+    elif action == "delete corpus":
+        stt.delete_corpus(model_id, corpus)
     else:
-        print(f"The '{operation}' operation is not valid.")
+        print(f"'{action}' is not valid as a custom corpora action.")
 
 
-def words_run(speech_to_text, operation, custom_id, word=None):
-    """Words operations of a custom language model."""
-    if operation == "list words":
-        words = speech_to_text.list_words(custom_id).get_result()
+def custom_words(stt, action, model_id, word=None, words=None):
+    """Custom words actions of a custom language model."""
+    if action == "list words":
+        words = stt.list_words(model_id).get_result()
         print(json.dumps(words, indent=2))
-    elif operation == "add word":
-        speech_to_text.add_word(custom_id, word)
-    elif operation == "get word":
-        word = speech_to_text.get_word(custom_id, word).get_result()
+    elif action == "add words":
+        stt.add_words(model_id, words)
+    elif action == "add word":
+        stt.add_words(model_id, word)
+    elif action == "get word":
+        word = stt.get_word(model_id, word).get_result()
         print(json.dumps(word, indent=2))
-    elif operation == "delete word":
-        speech_to_text.delete_word(custom_id, word)
+    elif action == "delete word":
+        stt.delete_word(model_id, word)
     else:
-        print(f"The '{operation}' operation is not valid.")
+        print(f"'{action}' is not valid as a custom words action.")
 
 
-def grammar_run(speech_to_text, custom_id, operation, grammar_name,  grammar_pathfile=None):
-    """Grammar operations of a custom language model."""
-
-
-    elif operation == "get grammar":
-        grammar = speech_to_text.get_grammar(custom_id, grammar_name).get_result()
-        print(json.dumps(grammar, indent=2))
-    elif operation == "add grammar":
+def custom_grammar(stt, action, model_id, grammar=None, grammar_pathfile=None):
+    """Custom grammar actions of a custom language model."""
+    if action == "list grammars":
+        grammars = stt.list_grammars(model_id).get_result()
+        print(json.dumps(grammars, indent=2))
+    elif action == "add grammar":
         with open(grammar_pathfile, 'rb') as grammar_file:
-            speech_to_text.add_grammar(custom_id, grammar_name, grammar_file, 'application/srgs')
-    elif operation == "delete grammar":
-        speech_to_text.delete_grammar(custom_id, grammar_name)
+            c_type = "application/srgs"
+            stt.add_grammar(model_id,
+                            grammar,
+                            grammar_file,
+                            content_type=c_type)
+    elif action == "get grammar":
+        grammar = stt.get_grammar(model_id, grammar).get_result()
+        print(json.dumps(grammar, indent=2))
+    elif action == "delete grammar":
+        stt.delete_grammar(model_id, grammar)
     else:
-        print(f"The '{operation}' operation is not valid.")
+        print(f"'{action}' is not valid as a custom grammar action.")
 
 
-def create_custom_acoustic_model(speech_to_text, custom_acoustic, language):
-    """Creates a new custom acoustic model for a specified base model."""
-    acoustic_model = speech_to_text.create_acoustic_model(
-        custom_acoustic, language, description=custom_acoustic).get_result()
-    print(json.dumps(acoustic_model, indent=2))
-
-
-def info_acoustic_models(speech_to_text):
-    """Show all custom acoustic models."""
-    acoustic_models = speech_to_text.list_acoustic_models().get_result()
-    print("-- Acoustic models --")
-    print(json.dumps(acoustic_models, indent=2))
-
-
-def custom_acoustic_model_run(speech_to_text, custom_id, operation):
-    """Custom acoustic model operations."""
-    if operation == "get model":
-        acoustic_model = speech_to_text.get_acoustic_model(custom_id).get_result()
+def custom_acoustic_model(stt, action, model_id=None, model=None, lang=None):
+    """Custom acoustic model actions."""
+    if action == "create model":
+        acoustic_model = stt.create_acoustic_model(model, lang).get_result()
         print(json.dumps(acoustic_model, indent=2))
-    elif operation == "train model":
-        speech_to_text.train_acoustic_model(custom_id)
-    elif operation == "reset model":
-        speech_to_text.reset_acoustic_model(custom_id)
-    elif operation == "upgrade model":
-        speech_to_text.upgrade_acoustic_model(custom_id)
-    elif operation == "delete model":
-        speech_to_text.delete_acoustic_model(custom_id)
+    elif action == "list models":
+        acoustic_models = stt.list_acoustic_models().get_result()
+        print(json.dumps(acoustic_models, indent=2))
+    elif action == "get model":
+        acoustic_model = stt.get_acoustic_model(model_id).get_result()
+        print(json.dumps(acoustic_model, indent=2))
+    elif action == "delete model":
+        stt.delete_acoustic_model(model_id)
+    elif action == "train model":
+        stt.train_acoustic_model(model_id)
+    elif action == "reset model":
+        stt.reset_acoustic_model(model_id)
+    elif action == "upgrade model":
+        stt.upgrade_acoustic_model(model_id)
     else:
-        print(f"The '{operation}' operation is not valid.")
+        print(f"'{action}' is not valid as a custom acoustic model action.")
 
-def audio_resource_run(speech_to_text, custom_id, operation):
-    """Operations for audio resources of custom acoustic model."""
-    if operation == "list audio":
-        audio_resources = speech_to_text.list_audio(custom_id).get_result()
+
+def custom_audios(stt, action, model_id, audio=None, audio_pathfile=None):
+    """Custom audio resource actions of a custom acoustic model."""
+    if action == "list audio":
+        audio_resources = stt.list_audio(model_id).get_result()
         print(json.dumps(audio_resources, indent=2))
+    elif action == "add audio":
+        c_type = "audio/mp3"
+        with open(audio_pathfile, 'rb') as audio_file:
+            stt.add_audio(model_id, audio, audio_file, content_type=c_type)
+    elif action == "get audio":
+        audio_listing = stt.get_audio(model_id, audio).get_result()
+        print(json.dumps(audio_listing, indent=2))
+    elif action == "delete audio":
+        stt.delete_audio(model_id, audio)
+    else:
+        print(f"'{action}' is not valid as a custom audio resource action.")
 
 
 def main():
-    """Customizer of a STT IBM instance."""
+    """Customizer of an IBM Speech to Text instance."""
     api_key, url_service = load_env('.env')
-    speech_to_text = instantiate_stt(api_key, url_service)
+    stt = instantiate_stt(api_key, url_service)
 
-    # -- Custom language models --
+    # --- CUSTOM LANGUAGE MODELS ---
+    #----------------------------------------------------------------------------
+    #lang_model = "IGS lang model"
+    #co_lang="CO_NarrowbandModel"
+    #custom_language_model(stt, "create model", model=lang_model, lang=co_lang)
+    #----------------------------------------------------------------------------
+    custom_language_model(stt, "list models")
+    #----------------------------------------------------------------------------
+    #lang_id = "7fa5d91f-be33-4903-9c26-8b0bdeb3fb2f"
+    #custom_language_model(stt, "get model", model_id=lang_id)
+    #custom_language_model(stt, "delete model", model_id=lang_id)
+    #custom_language_model(stt, "train model", model_id=lang_id)
+    #custom_language_model(stt, "reset model", model_id=lang_id)
+    #custom_language_model(stt, "upgrade model", model_id=lang_id)
 
-    #create_custom_language_model(speech_to_text,  "IGS lang model", "IGS lang model")
-    #language_id = "7fa5d91f-be33-4903-9c26-8b0bdeb3fb2f"
-    #info_custom_language_model(speech_to_text,  language_id)
-    #custom_language_model_run(speech_to_text, language_id, "train model")
-    #corpora_run(speech_to_text, language_id, "get corpus", "corpus_igs")
-    #words_run(speech_to_text, language_id, "get word", "IGS")
-
-    # -- Custom acoustic models --
-    #create_custom_acoustic_model(speech_to_text, "Primer modelo acustico", "es-CO_NarrowbandModel")
-    acoustic_id = "2dab4986-8c28-4f0c-bc0c-8bfafc64f966"
-    #custom_acoustic_model_run(speech_to_text, custom_acoustic_id, "get model")
-    audio_resource_run(speech_to_text, acoustic_id, "list audio")
+    # --- CUSTOM ACOUSTIC MODELS ---
+    #----------------------------------------------------------------------------
+    #ac_model = "IGS acoustic model"
+    #co_lang="CO_NarrowbandModel"
+    #custom_acoustic_model(stt, "create model", model=ac_model, lang=co_lang)
+    #----------------------------------------------------------------------------
+    custom_acoustic_model(stt, "list models")
+    #----------------------------------------------------------------------------
+    #acoustic_id = "2dab4986-8c28-4f0c-bc0c-8bfafc64f966"
+    #custom_acoustic_model(stt, "get model", model_id=acoustic_id)
+    #custom_acoustic_model(stt, "delete model", model_id=ac_id)
+    #custom_acoustic_model(stt, "train model", model_id=ac_id)
+    #custom_acoustic_model(stt, "reset model", model_id=ac_id)
+    #custom_acoustic_model(stt, "upgrade model", model_id=ac_id)
 
 
 if __name__ == '__main__':
