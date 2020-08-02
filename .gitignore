@@ -2,3 +2,6 @@
 *.mp3
 *.json
 *.txt
+*.xlsx
+*.csv
+hidden/

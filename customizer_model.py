@@ -157,7 +157,7 @@ def main():
     #co_lang="CO_NarrowbandModel"
     #custom_language_model(stt, "create model", model=lang_model, lang=co_lang)
     #----------------------------------------------------------------------------
-    custom_language_model(stt, "list models")
+    #custom_language_model(stt, "list models")
     #----------------------------------------------------------------------------
     #lang_id = "7fa5d91f-be33-4903-9c26-8b0bdeb3fb2f"
     #custom_language_model(stt, "get model", model_id=lang_id)
@@ -166,16 +166,24 @@ def main():
     #custom_language_model(stt, "reset model", model_id=lang_id)
     #custom_language_model(stt, "upgrade model", model_id=lang_id)
 
+    # --- CUSTOM CORPORA ---
+    #----------------------------------------------------------------------------
+    lang_id = "7fa5d91f-be33-4903-9c26-8b0bdeb3fb2f"
+    custom_corpora(stt, "get corpus", lang_id, corpus="corpus_igs")
+    #custom_corpora(stt, "add corpus", lang_id, corpus=None, corpus_pathfile=None)
+    #custom_language_model(stt, "train model", model_id=lang_id)
+    #custom_language_model(stt, "get model", model_id=lang_id)
+
     # --- CUSTOM ACOUSTIC MODELS ---
     #----------------------------------------------------------------------------
     #ac_model = "IGS acoustic model"
     #co_lang="CO_NarrowbandModel"
     #custom_acoustic_model(stt, "create model", model=ac_model, lang=co_lang)
     #----------------------------------------------------------------------------
-    custom_acoustic_model(stt, "list models")
+    #custom_acoustic_model(stt, "list models")
     #----------------------------------------------------------------------------
-    #acoustic_id = "2dab4986-8c28-4f0c-bc0c-8bfafc64f966"
-    #custom_acoustic_model(stt, "get model", model_id=acoustic_id)
+    #ac_id = "2dab4986-8c28-4f0c-bc0c-8bfafc64f966"
+    #custom_acoustic_model(stt, "get model", model_id=ac_id)
     #custom_acoustic_model(stt, "delete model", model_id=ac_id)
     #custom_acoustic_model(stt, "train model", model_id=ac_id)
     #custom_acoustic_model(stt, "reset model", model_id=ac_id)
