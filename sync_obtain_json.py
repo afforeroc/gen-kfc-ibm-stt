@@ -67,7 +67,7 @@ def main():
     """Obtain JSON responses from 'IBM SST' audio processing."""
     api_key, url_service = load_env('.env')
     speech_to_text = instantiate_stt(api_key, url_service)
-    keywords_pathfile = "keywords/basekeywords_db.xlsx"
+    keywords_pathfile = "keywords/basekeywords.xlsx"
     audios_folder = "audios"
     json_folder = "json"
     custom_id = "7fa5d91f-be33-4903-9c26-8b0bdeb3fb2f"

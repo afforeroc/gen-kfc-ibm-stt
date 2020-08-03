@@ -166,13 +166,25 @@ def main():
     #custom_language_model(stt, "reset model", model_id=lang_id)
     #custom_language_model(stt, "upgrade model", model_id=lang_id)
 
+
     # --- CUSTOM CORPORA ---
     #----------------------------------------------------------------------------
     lang_id = "7fa5d91f-be33-4903-9c26-8b0bdeb3fb2f"
-    custom_corpora(stt, "get corpus", lang_id, corpus="corpus_igs")
-    #custom_corpora(stt, "add corpus", lang_id, corpus=None, corpus_pathfile=None)
+    #custom_language_model(stt, "get model", model_id=lang_id)
+
+    # -- Delete corpus --
+    #custom_corpora(stt, "delete corpus", lang_id, corpus="legal_igs_bancolombia")
+    #custom_corpora(stt, "list corpora", lang_id)
+    
+    # -- Add corpus --
+    #custom_corpora(stt, "add corpus", lang_id, corpus="legal_igs_bancolombia", corpus_pathfile="corpora/legal_igs_bancolombia.txt")
+    #custom_corpora(stt, "list corpora", lang_id)
+    custom_corpora(stt, "get corpus", lang_id, "legal_igs_bancolombia") # Check if status is analyzed
+
+    # -- Train model
     #custom_language_model(stt, "train model", model_id=lang_id)
     #custom_language_model(stt, "get model", model_id=lang_id)
+
 
     # --- CUSTOM ACOUSTIC MODELS ---
     #----------------------------------------------------------------------------
