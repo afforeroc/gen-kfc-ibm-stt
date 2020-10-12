@@ -50,16 +50,17 @@ def save_json(data_json, audio_file, transcripts_folder):
     print(f"'{json_pathfile}' was saved sucessful")
 
 
-def sst_response(audio_pathfile, speech_to_text, keywords, custom_id):
+def sst_response(audio_pathfile, speech_to_text, keywords):
     """Return callback response of SST using one audiofile."""
     with open(audio_pathfile, 'rb') as audio_file:
         response = speech_to_text.recognize(audio=audio_file,
                                             content_type='audio/mp3',
                                             model='es-CO_NarrowbandModel',
-                                            language_customization_id="7fa5d91f-be33-4903-9c26-8b0bdeb3fb2f",
                                             keywords=keywords,
-                                            keywords_threshold=0.5,
-                                            speaker_labels=True).get_result()
+                                            keywords_threshold=0.3,
+                                            speaker_labels=True,
+                                            inactivity_timeout=-1,
+                                            max_alternatives=3).get_result()
     return response
 
 
@@ -67,15 +68,14 @@ def main():
     """Obtain JSON responses from 'IBM SST' audio processing."""
     api_key, url_service = load_env('.env')
     speech_to_text = instantiate_stt(api_key, url_service)
-    keywords_pathfile = "keywords/basekeywords.xlsx"
+    keywords_pathfile = "basekeywords.xlsx"
     audios_folder = "audios"
     json_folder = "json"
-    custom_id = "7fa5d91f-be33-4903-9c26-8b0bdeb3fb2f"
     keywords = extract_keywords(keywords_pathfile, 0)
     for audio_file in os.listdir(audios_folder):
         audio_pathfile = os.path.join(audios_folder, audio_file)
         if os.path.isfile(audio_pathfile):
-            data_json = sst_response(audio_pathfile, speech_to_text, keywords, custom_id)
+            data_json = sst_response(audio_pathfile, speech_to_text, keywords)
             save_json(data_json, audio_file, json_folder)
 
 
