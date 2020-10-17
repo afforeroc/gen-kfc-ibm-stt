@@ -22,13 +22,13 @@ def find_speaker(from_time, speaker_labels):
     for sp_block in speaker_labels:
         if sp_block['from'] == from_time:
             speaker = sp_block['speaker']
-        elif sp_block['from'] == (from_time + 0.01):
+        elif abs(sp_block['from'] - from_time) <= 0.01:
             speaker = sp_block['speaker']
     return speaker
 
 
 def get_time(num_seconds):
-    time = datetime.timedelta(seconds=float(num_seconds))
+    time = datetime.timedelta(seconds=float(num_seconds+0.000001))
     return str(time)[:-4]
 
 
@@ -73,7 +73,7 @@ def extract_keywords(data_json):
             end_time = keywords_result[keyword][0]['end_time']
             speaker = find_speaker(start_time, speaker_labels)
             if speaker == -1:
-                print(keyword, start_time, speaker)
+                print('ERROR', keyword, start_time, speaker)
             keywords_found.append((start_time, speaker, keyword, end_time))
     return keywords_found
 
