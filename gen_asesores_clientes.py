@@ -22,10 +22,11 @@ def load_json(json_pathfile):
 def get_metadata(json_file):
     labels = json_file.split('_')
     campaing = labels[0]
-    dni = labels[4]
+    asesor_dni = labels[4]
     date = labels[1].split('-')
     hour = date[1][:2]
-    return campaing, dni, hour
+    cliente_phone, _ = labels[5].split('-')
+    return campaing, asesor_dni, hour, cliente_phone
 
 
 def db_to_df(db_env, sql_statement):
@@ -122,14 +123,16 @@ def extract_transcripts_words(conversation, speakers):
     
     return speaker_transcripts, speaker_words
 
-def determine_roles(speaker_words, keywords):
+
+def words_by_roles(speaker_words, keywords=None):
     speaker_num_words = {}
     for speaker in speaker_words:
         words = speaker_words[speaker].split(' ')
         speaker_num_words[speaker] = len(words)
-    #print(speaker_num_words)
-    #asesor = max(speaker_num_words, key=speaker_num_words.get)  # Just use 'min' instead of 'max' for minimum.
-
+    asesor = max(speaker_num_words, key=speaker_num_words.get)
+    cliente = min(speaker_num_words, key=speaker_num_words.get)
+    
+    """
     speaker_num_matches = {}
     for speaker in speaker_words:
         words = speaker_words[speaker]
@@ -139,36 +142,30 @@ def determine_roles(speaker_words, keywords):
             total_matches += len(matches)
         speaker_num_matches[speaker] = total_matches
     #print(speaker_num_matches)
+    """
 
-    talkative1 = max(speaker_num_words, key=speaker_num_words.get)
-    talkative2 = max(speaker_num_matches, key=speaker_num_matches.get)
-
-    speaker_roles = {}
-    if talkative1 == talkative2:
-        #print('Asesor found!')
-        speaker_roles[speaker] = 'asesor'
-    else:
-        print('ERROR! Asesor not found!')
-        print(speaker_num_words)
-        print(speaker_num_matches)
-        print('\n')
+    asesor_words = speaker_words[asesor]
+    cliente_words = speaker_words[cliente]
+    return asesor_words, cliente_words
 
 
-def extract_keywords(data_json):
-    """Construct the conversation linking 'results' and 'speaker_labels'."""
-    results = data_json['results']
-    speaker_labels = data_json['speaker_labels']
-    keywords_found = []
-    for result in results:
-        keywords_result = result['keywords_result']
-        for keyword in keywords_result:
-            start_time = keywords_result[keyword][0]['start_time']
-            end_time = keywords_result[keyword][0]['end_time']
-            speaker = find_speaker(speaker_labels, start_time, end_time)
-            if speaker == -1:
-                print('ERROR', keyword, start_time, speaker)
-            keywords_found.append((start_time, speaker, keyword, end_time))
-    return keywords_found
+def get_asesor(dni, name, gender, campaing, hour, words=None):
+    row_asesor = {}
+    row_asesor['dni'] = dni
+    row_asesor['name'] = name
+    row_asesor['gender'] = gender
+    row_asesor['campaing'] = campaing
+    row_asesor['hour'] = hour
+    row_asesor['words'] = words
+    return row_asesor
+
+
+def get_cliente(telefono, hour, cliente_words):
+    row_cliente = {}
+    row_cliente['telefono'] = telefono
+    row_cliente['hour'] = hour
+    row_cliente['words'] = cliente_words
+    return row_cliente
 
 
 def save_extracted_data(keywords_found, json_file, folder, label):
@@ -189,25 +186,39 @@ def main():
     sql_statement = "SELECT * FROM {}".format(db_table)
     print(db_env)
     asesores_df = db_to_df(db_env, sql_statement)
-    #print(asesores_df)
+    print("All data extracted from db!")
+    
+    asesores_analytics_df = pd.DataFrame(columns = ['dni', 'name', 'gender', 'campaing', 'hour', 'words'])
+    clientes_analytics_df = pd.DataFrame(columns = ['telefono', 'hour', 'words'])
+
     for json_file in os.listdir('json'):
         json_pathfile = os.path.join('json', json_file)
         if os.path.isfile(json_pathfile):
             print("\n{}".format(json_file))
-            campaing, dni, hour = get_metadata(json_file)
+
+            # extract all metadata labels
+            campaing, asesor_dni, hour, cliente_phone = get_metadata(json_file)
             asesores_dict = asesores_df.set_index('identificacion').T.to_dict('list')
-            name = asesores_dict[dni][1]
-            gender = asesores_dict[dni][3]
-            print("{}, {}, {}, {}, {}".format(dni, name, gender, campaing, hour))
+            
+            # extract data asesor
+            asesor_name = asesores_dict[asesor_dni][1]
+            asesor_gender = asesores_dict[asesor_dni][3]
+
             data_json = load_json(json_pathfile)
             speakers = get_speakers(data_json)
             conversation = extract_conversation(data_json)
             _, speaker_words = extract_transcripts_words(conversation, speakers)
-            keywords = ['IGS', 'bancolombia']
-            determine_roles(speaker_words, keywords)
-            #keywords_found = extract_keywords(data_json)
-            #save_extracted_data(conversation, json_file, "conversations", "conv")
-            #save_extracted_data(keywords_found, json_file, "keywords_found", "kwds")
+            
+            asesor_words, cliente_words = words_by_roles(speaker_words)
+            
+            asesor_row = get_asesor(asesor_dni, asesor_name, asesor_gender, campaing, hour, asesor_words)
+            cliente_row = get_cliente(cliente_phone, hour, cliente_words)
+            asesores_analytics_df = asesores_analytics_df.append(asesor_row, ignore_index=True)
+            clientes_analytics_df = clientes_analytics_df.append(cliente_row, ignore_index=True)
+
+    # Save data of analytics
+    asesores_analytics_df.to_excel("asesores_analytics.xlsx", index=False)
+    clientes_analytics_df.to_excel("clientes_analytics.xlsx", index=False)
 
 
 if __name__ == '__main__':
