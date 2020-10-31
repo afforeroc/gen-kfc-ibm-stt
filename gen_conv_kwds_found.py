@@ -16,13 +16,15 @@ def load_json(json_pathfile):
     return data_json
 
 
-def find_speaker(from_time, speaker_labels):
+def find_speaker(speaker_labels, from_time, to_time):
     """Return the number of speaker."""
     speaker = -1
     for sp_block in speaker_labels:
         if sp_block['from'] == from_time:
             speaker = sp_block['speaker']
-        elif abs(sp_block['from'] - from_time) <= 0.01:
+        elif sp_block['to'] == to_time:
+            speaker = sp_block['speaker']
+        elif abs(sp_block['to'] - to_time) <= 0.01:
             speaker = sp_block['speaker']
     return speaker
 
@@ -48,33 +50,39 @@ def extract_conversation(data_json):
             word = timestamp[0]
             from_time = timestamp[1]
             to_time = timestamp[2]
-            speaker_current = find_speaker(from_time, speaker_labels)
+            speaker_current = find_speaker(speaker_labels, from_time, to_time)
 
             if speaker_current == speaker:
                 text_speaker += f"{word} "
             else:
+                text_speaker = text_speaker.strip()
                 conversation.append([init_text_time, speaker, text_speaker, to_time])
                 text_speaker = f"{word} "
                 speaker = speaker_current
                 init_text_time = from_time
+    text_speaker = text_speaker.strip()
     conversation.append((init_text_time, speaker, text_speaker, to_time)) #Adding last line
     return conversation
 
 
-def extract_keywords(data_json):
+def extract_keywords(data_json, json_file):
     """Construct the conversation linking 'results' and 'speaker_labels'."""
+    #print(data_json)
     results = data_json['results']
     speaker_labels = data_json['speaker_labels']
     keywords_found = []
     for result in results:
-        keywords_result = result['keywords_result']
-        for keyword in keywords_result:
-            start_time = keywords_result[keyword][0]['start_time']
-            end_time = keywords_result[keyword][0]['end_time']
-            speaker = find_speaker(start_time, speaker_labels)
-            if speaker == -1:
-                print('ERROR', keyword, start_time, speaker)
-            keywords_found.append((start_time, speaker, keyword, end_time))
+        #print("result = ", result)
+        if 'keywords_result' in result:
+            keywords_result = result['keywords_result']
+            for keyword in keywords_result:
+                start_time = keywords_result[keyword][0]['start_time']
+                end_time = keywords_result[keyword][0]['end_time']
+                speaker = find_speaker(speaker_labels, start_time, end_time)
+                if speaker == -1:
+                    print('ERROR', keyword, start_time, speaker)
+                    print()
+                keywords_found.append((start_time, speaker, keyword, end_time))
     return keywords_found
 
 
@@ -96,7 +104,7 @@ def main():
             print(json_pathfile)
             data_json = load_json(json_pathfile)
             conversation = extract_conversation(data_json)
-            keywords_found = extract_keywords(data_json)
+            keywords_found = extract_keywords(data_json, json_file)
             save_extracted_data(conversation, json_file, "conversations", "conv")
             save_extracted_data(keywords_found, json_file, "keywords_found", "kwds")
 
