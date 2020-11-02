@@ -8,6 +8,14 @@ import datetime
 import pandas as pd
 import pymysql
 import re
+import sys
+import time
+import nltk
+nltk.download('stopwords')
+nltk.download('punkt')
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+stop_words = stopwords.words('spanish')
 
 
 def load_json(json_pathfile):
@@ -19,14 +27,18 @@ def load_json(json_pathfile):
     return data_json
 
 
-def get_metadata(json_file):
+def get_metadata(json_file, tags):
     labels = json_file.split('_')
-    campaing = labels[0]
-    asesor_dni = labels[4]
-    date = labels[1].split('-')
-    hour = date[1][:2]
-    cliente_phone, _ = labels[5].split('-')
-    return campaing, asesor_dni, hour, cliente_phone
+    if len(labels) != len(tags):
+        print('Missing labels')
+        sys.exit(1)
+    metadata = {}
+    for i, elem in enumerate(tags):
+        metadata[elem] = labels[i]
+    
+    phone, _ = metadata['customer_phone'].split('-')
+    metadata['customer_phone'] = phone
+    return metadata
 
 
 def db_to_df(db_env, sql_statement):
@@ -106,22 +118,30 @@ def extract_conversation(data_json):
     conversation.append((init_text_time, speaker, text_speaker, to_time)) #Adding last line
     return conversation
 
+def remove_stop_words(words_by_speaker):
+    word_tokens = word_tokenize(words_by_speaker.strip())
+    filtered_sentence = [w for w in word_tokens if not w in stop_words] 
+    filtered_sentence = []
+    for w in word_tokens: 
+        if w not in stop_words: 
+            filtered_sentence.append(w)
+    return ' '.join(filtered_sentence)
 
 def extract_transcripts_words(conversation, speakers):
-    speaker_transcripts = {}
+    #speaker_transcripts = {}
     speaker_words = {}
     for speaker in speakers:
-        transcripts_by_speaker = []
+        #transcripts_by_speaker = []
         words_by_speaker = ''
         for line in conversation:
             if line[1] == speaker:
-                transcript = line[2]
-                transcripts_by_speaker.append(transcript)
-                words_by_speaker += ' ' + transcript
-        speaker_transcripts[speaker] = transcripts_by_speaker
-        speaker_words[speaker] = words_by_speaker.strip()
-    
-    return speaker_transcripts, speaker_words
+                #transcripts_by_speaker.append(line[2])
+                words_by_speaker += ' ' + line[2]
+        #speaker_transcripts[speaker] = transcripts_by_speaker
+        words_by_speaker = words_by_speaker.strip()
+        words_by_speaker = remove_stop_words(words_by_speaker)
+        speaker_words[speaker] = words_by_speaker
+        return speaker_words
 
 
 def words_by_roles(speaker_words, keywords=None):
@@ -149,23 +169,27 @@ def words_by_roles(speaker_words, keywords=None):
     return asesor_words, cliente_words
 
 
-def get_asesor(dni, name, gender, campaing, hour, words=None):
-    row_asesor = {}
-    row_asesor['dni'] = dni
-    row_asesor['name'] = name
-    row_asesor['gender'] = gender
-    row_asesor['campaing'] = campaing
-    row_asesor['hour'] = hour
-    row_asesor['words'] = words
-    return row_asesor
+def get_assessor(assessors, metadata, assessor_words):
+    row_assessor = {}
+    row_assessor['dni'] = metadata['assessor_dni']
+    row_assessor['name'] = assessors[metadata['assessor_dni']][1]
+    row_assessor['gender'] = assessors[metadata['assessor_dni']][3]
+    row_assessor['campaign'] = metadata['campaign']
+    date, time = metadata['datetime'].split('-')
+    row_assessor['date'] = date
+    row_assessor['time'] = time
+    row_assessor['words'] = assessor_words
+    return row_assessor
 
 
-def get_cliente(telefono, hour, cliente_words):
-    row_cliente = {}
-    row_cliente['telefono'] = telefono
-    row_cliente['hour'] = hour
-    row_cliente['words'] = cliente_words
-    return row_cliente
+def get_customer(metadata, customer_words):
+    row_customer = {}
+    row_customer['phone'] = metadata['customer_phone']
+    date, time = metadata['datetime'].split('-')
+    row_customer['date'] = date
+    row_customer['time'] = time
+    row_customer['words'] = customer_words
+    return row_customer
 
 
 def save_extracted_data(keywords_found, json_file, folder, label):
@@ -184,41 +208,48 @@ def main():
     db_env = {'host':'158.177.190.81', 'user':'andres', 'password':'vd3VdcXQBRhD','db':'isadatastage','port':'3306'}
     db_table = "asesores"
     sql_statement = "SELECT * FROM {}".format(db_table)
-    print(db_env)
     asesores_df = db_to_df(db_env, sql_statement)
     print("All data extracted from db!")
     
-    asesores_analytics_df = pd.DataFrame(columns = ['dni', 'name', 'gender', 'campaing', 'hour', 'words'])
-    clientes_analytics_df = pd.DataFrame(columns = ['telefono', 'hour', 'words'])
+    asesores_analytics_df = pd.DataFrame(columns = ['campaign', 'dni', 'name', 'gender', 'date', 'time', 'words'])
+    clientes_analytics_df = pd.DataFrame(columns = ['phone', 'date', 'time', 'words'])
 
+    
+    #print(sr)
+
+    total_files = len(os.listdir('json'))
+    count = 0
+    t0 = time.time()
     for json_file in os.listdir('json'):
         json_pathfile = os.path.join('json', json_file)
         if os.path.isfile(json_pathfile):
-            print("\n{}".format(json_file))
 
-            # extract all metadata labels
-            campaing, asesor_dni, hour, cliente_phone = get_metadata(json_file)
-            asesores_dict = asesores_df.set_index('identificacion').T.to_dict('list')
+            # extract all metadata tags
+            tags = ['campaign', 'datetime', 'lead_id', 'epoch', 'assessor_dni', 'customer_phone']
+            metadata = get_metadata(json_file, tags)
+            assessors = asesores_df.set_index('identificacion').T.to_dict('list')
             
             # extract data asesor
-            asesor_name = asesores_dict[asesor_dni][1]
-            asesor_gender = asesores_dict[asesor_dni][3]
-
             data_json = load_json(json_pathfile)
             speakers = get_speakers(data_json)
             conversation = extract_conversation(data_json)
-            _, speaker_words = extract_transcripts_words(conversation, speakers)
-            
-            asesor_words, cliente_words = words_by_roles(speaker_words)
-            
-            asesor_row = get_asesor(asesor_dni, asesor_name, asesor_gender, campaing, hour, asesor_words)
-            cliente_row = get_cliente(cliente_phone, hour, cliente_words)
-            asesores_analytics_df = asesores_analytics_df.append(asesor_row, ignore_index=True)
-            clientes_analytics_df = clientes_analytics_df.append(cliente_row, ignore_index=True)
+            speaker_words = extract_transcripts_words(conversation, speakers)
+            assessor_words, customer_words = words_by_roles(speaker_words)
+
+            assessor_row = get_assessor(assessors, metadata, assessor_words)
+            customer_row = get_customer(metadata, customer_words)
+
+            asesores_analytics_df = asesores_analytics_df.append(assessor_row, ignore_index=True)
+            clientes_analytics_df = clientes_analytics_df.append(customer_row, ignore_index=True)
+            count += 1
+            porcentage = count*100/total_files
+            print("{:.2f}%, {}".format(porcentage, json_file))
 
     # Save data of analytics
     asesores_analytics_df.to_excel("asesores_analytics.xlsx", index=False)
     clientes_analytics_df.to_excel("clientes_analytics.xlsx", index=False)
+    t1 = time.time() - t0
+    print("Time elapsed: {:.2f}s".format(t1)) # CPU seconds elapsed (floating point)
 
 
 if __name__ == '__main__':
