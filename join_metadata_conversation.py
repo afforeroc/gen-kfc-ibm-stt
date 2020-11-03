@@ -1,11 +1,55 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Construct conversations from STT responses of IBM service."""
+"""Join metadata from filename and data from json (IBM STT response)."""
 
 import os
+import sys
+import time
 import json
 import datetime
 import pandas as pd
+import pymysql
+
+
+def db_to_df(db_env, sql_statement):
+    """Extract a dataframe from a db table."""
+    print("Connecting to '{}' db...".format(db_env['db']))
+    connection = pymysql.connect(host=db_env['host'],
+                                 user=db_env['user'],
+                                 password=db_env['password'],
+                                 db=db_env['db'],
+                                 charset='utf8mb4',
+                                 cursorclass=pymysql.cursors.DictCursor)
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(sql_statement)
+            sql_df = pd.DataFrame(cursor.fetchall())
+    finally:
+        connection.close()
+
+    return sql_df
+
+
+def get_metadata(json_filename, tags):
+    labels = json_filename.split('_')
+    if len(labels) != len(tags):
+        print('Missing labels')
+        sys.exit(1)
+    metadata = {}
+    for i, elem in enumerate(tags):
+        metadata[elem] = labels[i]
+
+    phone, _ = metadata['customer_phone'].split('-')
+    metadata['customer_phone'] = phone
+    metadata['keyfile'], _ = json_filename.split('.')
+    return metadata
+
+
+def get_assessor(assessors, metadata):
+    assessor = {}
+    assessor['name'] = assessors[metadata['assessor_dni']][1]
+    assessor['gender'] = assessors[metadata['assessor_dni']][3]
+    return assessor
 
 
 def load_json(json_pathfile):
@@ -31,24 +75,27 @@ def find_speaker(speaker_labels, from_time, to_time):
 
 
 def get_time(num_seconds):
-    time = datetime.timedelta(seconds=float(num_seconds+0.000001))
-    return str(time)[:-4]
+    time_f = datetime.timedelta(seconds=float(num_seconds + 0.000001))
+    return str(time_f)[:-4]
 
 
-def get_conversation(json_filename, json_data):
+def get_data_by_call(metadata, assessor, json_data):
     """Construct the conversation linking 'results' and 'speaker_labels'."""
     results = json_data['results']
     speaker_labels = json_data['speaker_labels']
     # Only once
-    columns = ['speaker', 'start_time', 'end_time', 'start_time_std', 'end_time_std',  'transcript']
+    columns = [
+        'keyfile', 'campaign', 'assessor_dni', 'assesor_name',
+        'assesor_gender', 'customer_phone', 'date', 'time', 'speaker',
+        'start_time', 'end_time', 'start_time_std', 'end_time_std',
+        'transcript'
+    ]
     conversation_by_call = pd.DataFrame(columns=columns)
-    print(conversation_by_call)
 
     init_text_time = json_data['speaker_labels'][0]['from']
     final_text_time = json_data['speaker_labels'][1]['to']
     speaker = json_data['speaker_labels'][0]['speaker']
     transcript = ""
-    count = 0
     # For all results
     for result in results:
         timestamps = result['alternatives'][0]['timestamps']
@@ -63,70 +110,125 @@ def get_conversation(json_filename, json_data):
             else:
                 transcript = transcript.strip()
                 #print("{} | {} | {} | {}".format(init_text_time, speaker, transcript, to_time))
-                conversation_line = pd.DataFrame({"speaker":speaker, "start_time":init_text_time, "end_time":final_text_time, "start_time_std":get_time(init_text_time), "end_time_std":get_time(final_text_time), "transcript":transcript}, index=[1])
+                date, time_f = metadata['datetime'].split('-')
+                conversation_line = pd.DataFrame(
+                    {
+                        'keyfile': metadata['keyfile'],
+                        'campaign': metadata['campaign'],
+                        'assessor_dni': metadata['assessor_dni'],
+                        'assesor_name': assessor['name'],
+                        'assesor_gender': assessor['gender'],
+                        'customer_phone': metadata['customer_phone'],
+                        'date': date,
+                        'time': time_f,
+                        "speaker": speaker,
+                        "start_time": init_text_time,
+                        "end_time": final_text_time,
+                        "start_time_std": get_time(init_text_time),
+                        "end_time_std": get_time(final_text_time),
+                        "transcript": transcript
+                    },
+                    index=[1])
                 #print(conversation_line)
-                conversation_by_call = conversation_by_call.append(conversation_line, ignore_index=True)
+                conversation_by_call = conversation_by_call.append(
+                    conversation_line, ignore_index=True)
                 transcript = f"{word} "
                 speaker = speaker_current
                 init_text_time = from_time
                 final_text_time = to_time
-                
+
     transcript = transcript.strip()
-    conversation_line = pd.DataFrame({"speaker":speaker, "start_time":init_text_time, "end_time":final_text_time, "start_time_std":get_time(init_text_time), "end_time_std":get_time(final_text_time), "transcript":transcript}, index=[1])
-    conversation_by_call = conversation_by_call.append(conversation_line, ignore_index=True) #Adding last line
+    conversation_line = pd.DataFrame(
+        {
+            'keyfile': metadata['keyfile'],
+            'campaign': metadata['campaign'],
+            'assessor_dni': metadata['assessor_dni'],
+            'assesor_name': assessor['name'],
+            'assesor_gender': assessor['gender'],
+            'customer_phone': metadata['customer_phone'],
+            'date': date,
+            'time': time_f,
+            "speaker": speaker,
+            "start_time": init_text_time,
+            "end_time": final_text_time,
+            "start_time_std": get_time(init_text_time),
+            "end_time_std": get_time(final_text_time),
+            "transcript": transcript
+        },
+        index=[1])
+    conversation_by_call = conversation_by_call.append(
+        conversation_line, ignore_index=True)  #Adding last line
     return conversation_by_call
-
-
-def extract_keywords(json_data, json_file):
-    """Construct the conversation linking 'results' and 'speaker_labels'."""
-    #print(json_data)
-    results = json_data['results']
-    speaker_labels = json_data['speaker_labels']
-    keywords_found = []
-    for result in results:
-        #print("result = ", result)
-        if 'keywords_result' in result:
-            keywords_result = result['keywords_result']
-            for keyword in keywords_result:
-                start_time = keywords_result[keyword][0]['start_time']
-                end_time = keywords_result[keyword][0]['end_time']
-                speaker = find_speaker(speaker_labels, start_time, end_time)
-                if speaker == -1:
-                    print('ERROR', keyword, start_time, speaker)
-                    print()
-                keywords_found.append((start_time, speaker, keyword, end_time))
-    return keywords_found
-
-
-def save_extracted_data(keywords_found, json_file, folder, label):
-    """Save conversation in '*.txt' file."""
-    name_file = os.path.splitext(json_file)[0]
-    filepath = f'{folder}/{label}_{name_file}.txt'
-    filepath_rw = open(filepath, 'w+')
-    for elem in keywords_found:
-        filepath_rw.write("[{}] - Speaker {}: {} - [{}]\n\n".format(get_time(elem[0]), elem[1], elem[2], get_time(elem[3])))
-    filepath_rw.close()
 
 
 def main():
     """Load JSON files, construct the dialogue and after save them in 'conversations' folder."""
-    columns = ['campaign', 'assessor_dni', 'assesor_name', 
-                'assesor_gender', 'customer_phone',
-                'date', 'time', 'speaker', 
-                'start_time', 'transcript', 'end_time', ]
-    #analytics_df = pd.DataFrame(columns=columns)
+
+    # Extrac information from asesores db table
+    db_env = {
+        'host': '158.177.190.81',
+        'user': 'andres',
+        'password': 'vd3VdcXQBRhD',
+        'db': 'isadatastage',
+        'port': '3306'
+    }
+    db_table = "asesores"
+    sql_statement = "SELECT * FROM {}".format(db_table)
+    asesores_df = db_to_df(db_env, sql_statement)
+    print("All data extracted from db!")
+    assessors = asesores_df.set_index('identificacion').T.to_dict('list')
+
+    # Create the big dataframe
+    columns = [
+        'keyfile', 'campaign', 'assessor_dni', 'assesor_name',
+        'assesor_gender', 'customer_phone', 'date', 'time', 'speaker',
+        'start_time', 'end_time', 'start_time_std', 'end_time_std',
+        'transcript'
+    ]
+    analytics_df = pd.DataFrame(columns=columns)
+
+    # Define the tags of filename
+    tags = [
+        'campaign', 'datetime', 'lead_id', 'epoch', 'assessor_dni',
+        'customer_phone'
+    ]
+
+    # Init performance control
+    total_files = len(os.listdir('json'))
+    count = 0
+    init_time = time.time()
+
+    # Iterate extracting metadata and json data (file by file)
     for json_filename in os.listdir('json'):
         json_filepath = os.path.join('json', json_filename)
         if os.path.isfile(json_filepath):
-            print(json_filename)
+
+            # Extract metadata from filename
+            metadata = get_metadata(json_filename, tags)
+
+            # Extract assessor data
+            assessor = get_assessor(assessors, metadata)
+
+            # Load JSON data
             json_data = load_json(json_filepath)
-            conversation_by_call = get_conversation(json_filename, json_data)
-            print(conversation_by_call)
-            conversation_by_call.to_excel("analytics-demo.xlsx", index=False)
-            break
-            #keywords_found = extract_keywords(json_data, json_file)
-            #save_extracted_data(conversation, json_file, "conversations", "conv")
-            #save_extracted_data(keywords_found, json_file, "keywords_found", "kwds")
+
+            # Construct conversation
+            data_by_call = get_data_by_call(metadata, assessor, json_data)
+
+            # Append the data by call to big dataframe
+            analytics_df = analytics_df.append(data_by_call)
+
+            # Calculate porcentage of files processed
+            count += 1
+            porcentage = count * 100 / total_files
+            print("{:.2f}%, {}".format(porcentage, json_filename))
+
+    # Save dataframe
+    analytics_df.to_excel("analytics-demo.xlsx", index=False)
+
+    # Show execution time (seconds)
+    exec_time = time.time() - init_time
+    print("Time elapsed: {:.2f}s".format(exec_time))
 
 
 if __name__ == '__main__':
