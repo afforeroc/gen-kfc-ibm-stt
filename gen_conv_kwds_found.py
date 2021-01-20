@@ -34,14 +34,15 @@ def get_time(num_seconds):
     return str(time)[:-4]
 
 
-def extract_conversation(data_json):
+def extract_conversation(json_data):
     """Construct the conversation linking 'results' and 'speaker_labels'."""
-    results = data_json['results']
-    speaker_labels = data_json['speaker_labels']
+    results = json_data['results']
+    speaker_labels = json_data['speaker_labels']
     # Only once
     conversation = []
-    init_text_time = data_json['speaker_labels'][0]['from']
-    speaker = data_json['speaker_labels'][0]['speaker']
+    init_text_time = json_data['speaker_labels'][0]['from']
+    final_text_time = json_data['speaker_labels'][1]['to']
+    speaker = json_data['speaker_labels'][0]['speaker']
     text_speaker = ""
     # For all results
     for result in results:
@@ -54,14 +55,17 @@ def extract_conversation(data_json):
 
             if speaker_current == speaker:
                 text_speaker += f"{word} "
+                final_text_time = to_time
             else:
                 text_speaker = text_speaker.strip()
-                conversation.append([init_text_time, speaker, text_speaker, to_time])
+                conversation.append([init_text_time, speaker, text_speaker, final_text_time])
                 text_speaker = f"{word} "
                 speaker = speaker_current
                 init_text_time = from_time
+                final_text_time = to_time
+
     text_speaker = text_speaker.strip()
-    conversation.append((init_text_time, speaker, text_speaker, to_time)) #Adding last line
+    conversation.append((init_text_time, speaker, text_speaker, final_text_time)) #Adding last line
     return conversation
 
 
@@ -102,9 +106,9 @@ def main():
         json_pathfile = os.path.join('json', json_file)
         if os.path.isfile(json_pathfile):
             print(json_pathfile)
-            data_json = load_json(json_pathfile)
-            conversation = extract_conversation(data_json)
-            keywords_found = extract_keywords(data_json, json_file)
+            json_data = load_json(json_pathfile)
+            conversation = extract_conversation(json_data)
+            keywords_found = extract_keywords(json_data, json_file)
             save_extracted_data(conversation, json_file, "conversations", "conv")
             save_extracted_data(keywords_found, json_file, "keywords_found", "kwds")
 

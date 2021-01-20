@@ -11,32 +11,25 @@ from ibm_watson import SpeechToTextV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 
-def load_env(env_file, keys):
-    """Load env settings of IBM SST instance."""
-    dotenv_path = os.path.join(os.path.dirname(__file__), env_file)
-    load_dotenv(dotenv_path)
-    env = {}
-    for key in keys:
-        if os.getenv(key) is None or os.getenv(key) == '':
-            print("The value of '{}' is empty.".format(key))
-            sys.exit(1)
-        elif key in env:
-            print("Repeated key: '{}'.".format(key))
-            sys.exit(1)
-        elif key not in env: 
-            env[key] = os.getenv(key)
-        else:
-            print("Unexpected error on 'os.getenv(key)'.")
-            sys.exit(1)
+def get_env(env_filepath, campaign, key):
+    """Get env settings of a campaign."""
+    f = open(env_filepath)
+    data = json.load(f)
+    f.close()
+    if campaign in data:
+        env = (data[campaign])[key]
+    else:
+        print('{} campaign does not exist'.format(campaign))
+        sys.exit(1)
     return env
 
 
-def instantiate_stt(api_key, url_service):
-    """Link a SDK instance with a IBM STT instance."""
-    authenticator = IAMAuthenticator(api_key)
-    speech_to_text = SpeechToTextV1(authenticator=authenticator)
-    speech_to_text.set_service_url(url_service)
-    return speech_to_text
+def instantiate_stt(stt_env):
+    """Instantiate an IBM Speech To Text API."""
+    authenticator = IAMAuthenticator(stt_env['api_key'])
+    stt = SpeechToTextV1(authenticator=authenticator)
+    stt.set_service_url(stt_env['api_url'])
+    return stt
 
 
 def extract_keywords(excel_pathfile, header):
@@ -80,10 +73,10 @@ def sst_response(audio_pathfile, speech_to_text, keywords, custom_id=None):
 
 def main():
     """Obtain JSON responses from 'IBM SST' audio processing."""
-    env_file = sys.argv[1]
-    keywords_filepath = sys.argv[2]
-    env = load_env(env_file, ['api_key', 'api_url', 'base_lang', 'custom_id'])
-    speech_to_text = instantiate_stt(env['api_key'], env['api_url'])
+    campaign = sys.argv[1] # e.g. igs_bancolombia_co
+    keywords_filepath = sys.argv[2] # excel-files/Bancolombia_basekeywords_2020-10-30.xlsx
+    ibm_stt_env = get_env('config/default.json', campaign, 'ibm_stt')
+    speech_to_text = instantiate_stt(ibm_stt_env)
     audios_folder = "audios"
     json_folder = "json"
     keywords = extract_keywords(keywords_filepath, 0)

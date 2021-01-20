@@ -79,6 +79,14 @@ def get_time(num_seconds):
     return str(time_f)[:-4]
 
 
+def get_time_std(hhmmss):
+    hh = hhmmss[:2]
+    mm = hhmmss[2:4]
+    ss = hhmmss[4:]
+    hhmmss_std = "{}:{}:{}".format(hh, mm, ss)
+    return hhmmss_std
+
+
 def get_data_by_call(metadata, assessor, json_data):
     """Construct the conversation linking 'results' and 'speaker_labels'."""
     results = json_data['results']
@@ -120,13 +128,13 @@ def get_data_by_call(metadata, assessor, json_data):
                         'assesor_gender': assessor['gender'],
                         'customer_phone': metadata['customer_phone'],
                         'date': date,
-                        'time': time_f,
-                        "speaker": speaker,
-                        "start_time": init_text_time,
-                        "end_time": final_text_time,
-                        "start_time_std": get_time(init_text_time),
-                        "end_time_std": get_time(final_text_time),
-                        "transcript": transcript
+                        'time': get_time_std(time_f),
+                        'speaker': speaker,
+                        'start_time': init_text_time,
+                        'end_time': final_text_time,
+                        'start_time_std': get_time(init_text_time),
+                        'end_time_std': get_time(final_text_time),
+                        'transcript': transcript
                     },
                     index=[1])
                 #print(conversation_line)
@@ -147,13 +155,13 @@ def get_data_by_call(metadata, assessor, json_data):
             'assesor_gender': assessor['gender'],
             'customer_phone': metadata['customer_phone'],
             'date': date,
-            'time': time_f,
-            "speaker": speaker,
-            "start_time": init_text_time,
-            "end_time": final_text_time,
-            "start_time_std": get_time(init_text_time),
-            "end_time_std": get_time(final_text_time),
-            "transcript": transcript
+            'time': get_time_std(time_f),
+            'speaker': speaker,
+            'start_time': init_text_time,
+            'end_time': final_text_time,
+            'start_time_std': get_time(init_text_time),
+            'end_time_std': get_time(final_text_time),
+            'transcript': transcript
         },
         index=[1])
     conversation_by_call = conversation_by_call.append(
@@ -224,7 +232,7 @@ def main():
             print("{:.2f}%, {}".format(porcentage, json_filename))
 
     # Save dataframe
-    analytics_df.to_excel("analytics-demo.xlsx", index=False)
+    analytics_df.to_excel("dataframe.xlsx", index=False)
 
     # Show execution time (seconds)
     exec_time = time.time() - init_time

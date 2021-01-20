@@ -118,6 +118,7 @@ def extract_conversation(data_json):
     conversation.append((init_text_time, speaker, text_speaker, to_time)) #Adding last line
     return conversation
 
+
 def remove_stop_words(words_by_speaker):
     word_tokens = word_tokenize(words_by_speaker.strip())
     filtered_sentence = [w for w in word_tokens if not w in stop_words] 
@@ -126,6 +127,7 @@ def remove_stop_words(words_by_speaker):
         if w not in stop_words: 
             filtered_sentence.append(w)
     return ' '.join(filtered_sentence)
+
 
 def extract_transcripts_words(conversation, speakers):
     #speaker_transcripts = {}

@@ -1,7 +1,8 @@
-.*
-*.mp3
-*.json
-*.txt
-*.xlsx
-*.csv
 hidden/
+config/
+excel-files/
+audios/
+conv-by-roles/
+conversations/
+json/
+keywords_found/
