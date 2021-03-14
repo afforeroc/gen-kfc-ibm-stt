@@ -91,10 +91,6 @@ def get_conv_by_roles(conversation):
     speaker_rol[assessor] = 'asesor'
     speaker_rol[client] = 'cliente'
 
-    rol_speaker = {}
-    rol_speaker['assessor'] = assessor
-    rol_speaker['client'] = client
-
     keywords = [
         "IGS", "bancolombia", "alianza", "calidad", "auditor", "auditora"
     ]

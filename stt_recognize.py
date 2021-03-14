@@ -5,8 +5,8 @@
 import os
 import sys
 import json
-from dotenv import load_dotenv
 import pandas as pd
+from datetime import datetime
 from ibm_watson import SpeechToTextV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
@@ -52,29 +52,33 @@ def save_json(data_json, audio_file, transcripts_folder):
     json_pathfile = f'{transcripts_folder}/{name_file}.json'
     with open(json_pathfile, 'w', encoding='utf-8') as json_file:
         json.dump(data_json, json_file, indent=2, ensure_ascii=False)
-    print(f"'{json_pathfile}' was saved sucessful")
+    print("{} {} was saved sucessful".format(get_current_time(), json_pathfile))
 
 
-def sst_response(audio_pathfile, speech_to_text, keywords, custom_id=None):
+def sst_response(audio_pathfile, speech_to_text, ibm_stt_env, keywords, custom_id=None):
     """Return callback response of SST using one audiofile."""
     with open(audio_pathfile, 'rb') as audio_file:
         response = speech_to_text.recognize(audio=audio_file,
                                             content_type='audio/mp3',
-                                            model='es-CO_NarrowbandModel',
-                                            customization_id=custom_id,
+                                            model=ibm_stt_env["model"],
                                             keywords=keywords,
-                                            word_alternatives_threshold=0.5,
-                                            keywords_threshold=0.5,
+                                            word_alternatives_threshold=0.6,
+                                            keywords_threshold=ibm_stt_env["keywords_threshold"],
+                                            language_customization_id=ibm_stt_env["language_customization_id"],
                                             speaker_labels=True,
                                             inactivity_timeout=-1,
                                             max_alternatives=3).get_result()
     return response
 
+def get_current_time():
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    return current_time
 
 def main():
     """Obtain JSON responses from 'IBM SST' audio processing."""
     campaign = sys.argv[1] # e.g. igs_bancolombia_co
-    keywords_filepath = sys.argv[2] # excel-files/Bancolombia_basekeywords_2020-10-30.xlsx
+    keywords_filepath = sys.argv[2] # excel-basekeywords/Bancolombia_basekeywords_2020-10-30.xlsx
     ibm_stt_env = get_env('config/default.json', campaign, 'ibm_stt')
     speech_to_text = instantiate_stt(ibm_stt_env)
     audios_folder = "audios"
@@ -83,7 +87,8 @@ def main():
     for audio_file in os.listdir(audios_folder):
         audio_pathfile = os.path.join(audios_folder, audio_file)
         if os.path.isfile(audio_pathfile):
-            data_json = sst_response(audio_pathfile, speech_to_text, keywords, env['custom_id'])
+            print("{} {}".format(get_current_time(), audio_file))
+            data_json = sst_response(audio_pathfile, speech_to_text, ibm_stt_env, keywords)
             save_json(data_json, audio_file, json_folder)
 
 
