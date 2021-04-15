@@ -78,12 +78,13 @@ def get_current_time():
 def main():
     """Obtain JSON responses from 'IBM SST' audio processing."""
     campaign = sys.argv[1] # e.g. igs_bancolombia_co
-    keywords_filepath = sys.argv[2] # excel-basekeywords/Bancolombia_basekeywords_2020-10-30.xlsx
+    #keywords_filepath = sys.argv[2] # excel-basekeywords/Bancolombia_basekeywords_2020-10-30.xlsx
     ibm_stt_env = get_env('config/default.json', campaign, 'ibm_stt')
     speech_to_text = instantiate_stt(ibm_stt_env)
     audios_folder = "audios"
     json_folder = "json"
-    keywords = extract_keywords(keywords_filepath, 0)
+    #keywords = extract_keywords(keywords_filepath, 0)
+    keywords = ['buenos dias', 'buenas tardes']
     for audio_file in os.listdir(audios_folder):
         audio_pathfile = os.path.join(audios_folder, audio_file)
         if os.path.isfile(audio_pathfile):
